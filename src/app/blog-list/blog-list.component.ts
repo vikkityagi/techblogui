@@ -89,7 +89,7 @@ export class BlogListComponent {
     localStorage.setItem('email', this.authService.getUserEmail() || '');
     const options: any = {
       key: 'rzp_test_LeBHwqYzi5GJsS', // Replace with your Razorpay key
-      amount: 400, // Amount in paisa (₹4)
+      amount: 200, // Amount in paisa (₹2)
       currency: 'INR',
       name: 'TechYatra Blog',
       description: 'Blog Access Payment',

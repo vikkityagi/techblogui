@@ -31,10 +31,12 @@ export class HistoryService {
     return this.http.post<BlogHistory>(`${this.url}/history/save`, { userEmail, blog, isPaid });
   }
 
-  markAsPaid(userEmail: string, title: string): void {
-    const userHistory = this.historyMap[userEmail];
-    const item = userHistory?.find(b => b.blog.title === title);
-    if (item) item.isPaid = true;
+  getHistoryByEmail(userEmail: string): Observable<BlogHistory[]> {
+    return this.http.get<BlogHistory[]>(`${this.url}/history/${userEmail}`);
+  }
+
+  markAsPaid(id: string, status: boolean): Observable<void> {
+    return this.http.get<void>(`${this.url}/history/${id}/pay/${status}`);
   }
 
   getHistory(userEmail: string): Observable<BlogHistory[]> {
