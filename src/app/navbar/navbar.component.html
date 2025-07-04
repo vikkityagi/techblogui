@@ -1,0 +1,22 @@
+<!-- src/app/navbar/navbar.component.html -->
+
+<mat-toolbar color="primary">
+  <span>TechYatraWithVikki</span>
+  <span class="spacer"></span>
+
+  <!-- Show only for user -->
+  <ng-container *ngIf="role === 'user'">
+    <a mat-button routerLink="/">📰 Blog Posts</a>
+    <a mat-button routerLink="/history">📌 My History</a>
+  </ng-container>
+
+  <!-- Show only for admin -->
+  <ng-container *ngIf="role === 'admin'">
+    <a mat-button routerLink="/add-blog">✍️ Blog Form</a>
+  </ng-container>
+
+  <a mat-button routerLink="/login">🔐 Login</a>
+  <a mat-button routerLink="/signup">Signup</a>
+  <a mat-button routerLink="/blog-list">Blog List</a>
+  <a mat-button *ngIf="email" routerLink="/user-history">User History</a>
+</mat-toolbar>

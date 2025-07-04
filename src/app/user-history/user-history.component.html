@@ -1,0 +1,40 @@
+<h2>📜 My Saved Blogs</h2>
+
+<!-- 🔍 Autocomplete Search -->
+<mat-form-field appearance="fill" style="min-width: 250px; max-width: 300px; float: right;">
+  <mat-label>Search Your Blog Title</mat-label>
+  <input
+    type="text"
+    matInput
+    [(ngModel)]="searchTitle"
+    [matAutocomplete]="auto"
+    placeholder="Search saved blog"
+    (ngModelChange)="search()"
+  />
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let title of titles" [value]="title">{{ title }}</mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<div *ngIf="selectedBlog">
+  <mat-card *ngFor="let blog of selectedBlog" style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 1rem;">
+    <mat-card-title>{{ blog.blog.title }}</mat-card-title>
+    <mat-card-content>{{ blog.blog.content | slice: 0:100 }}...</mat-card-content>
+
+    <!-- Show Pay Button only if not paid -->
+    <div *ngIf="!blog.isPaid" style="margin-top: 0.5rem;">
+      <button mat-raised-button color="primary" (click)="pay(blog)">
+        💰 Read Full Blog (₹4)
+      </button>
+    </div>
+
+    <div *ngIf="blog.isPaid" style="margin-top: 1rem; color: green;">
+      ✅ You have already paid for this blog.
+    </div>
+  </mat-card>
+</div>
+
+<!-- 😔 If No Blog -->
+<div *ngIf="!selectedBlog && history.length === 0" style="color: gray; margin-top: 2rem;">
+  No blog saved in your history yet.
+</div>

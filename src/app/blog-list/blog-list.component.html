@@ -1,0 +1,40 @@
+<!-- 🔍 Autocomplete Blog Search -->
+<!-- 🔍 Right-aligned Autocomplete Search -->
+<div style="display: flex;flex-wrap: wrap;gap: 1rem;margin-bottom: 1rem;align-items: flex-start;">
+  
+  <!-- 📝 Show Blogs -->
+  <mat-card *ngFor="let blog of filteredBlogs" style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 1rem;">
+    <mat-card-title>{{ blog.title }}</mat-card-title>
+    <mat-card-content>
+      {{ blog.content | slice: 0:100 }}...
+    </mat-card-content>
+
+    <button mat-raised-button color="accent" (click)="pay(blog)">
+      Read More (₹4)
+    </button>
+
+    <div *ngIf="role === 'user'" style="margin-top: 0.5rem;">
+      <button mat-icon-button color="accent" (click)="saveToHistory(blog)">
+        <mat-icon>bookmark</mat-icon>
+      </button>
+    </div>
+  </mat-card>
+
+  <!-- 🔇 No Blog Found -->
+  <div *ngIf="filteredBlogs.length === 0" style="color: gray;">
+    No blog found for today.
+  </div>
+
+
+  <mat-form-field appearance="fill" style="min-width: 250px; max-width: 300px; margin-left: auto;">
+    <mat-label>Search Today's Blog by Title</mat-label>
+    <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="searchTitle" (ngModelChange)="filterBlogByTitle()"
+      placeholder="Type blog title..." />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let title of allTitles" [value]="title">
+        {{ title }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+</div>
