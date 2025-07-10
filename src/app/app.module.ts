@@ -20,6 +20,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
+import { MatDatepickerModule } from '@angular/material/datepicker'; // Import MatDatePickerModule for date selection
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { AboutComponent } from './about/about.component'; // Import MatTooltipModule for tooltips
 
 @NgModule({
   declarations: [
@@ -30,7 +34,8 @@ import { HomeComponent } from './home/home.component';
     NavbarComponent,
     UserHistoryComponent,
     SignupComponent,
-    HomeComponent
+    HomeComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,10 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     MatToolbarModule, // Import MatToolbarModule for the navbar
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatDatepickerModule, // Import MatDatepickerModule for date selection
+    MatNativeDateModule, // Import MatNativeDateModule for native date support
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

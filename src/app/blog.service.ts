@@ -15,7 +15,10 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  getBlogs(): Observable<Blog[]> {
+  getBlogs(fromDate?: string, toDate?: string): Observable<Blog[]> {
+    if(fromDate && toDate) {
+      return this.http.get<Blog[]>(`${this.apiUrl}/blogs?fromDate=${fromDate}&toDate=${toDate}`);
+    }
     return this.http.get<Blog[]>(`${this.apiUrl}/blogs`);
   }
 
@@ -28,8 +31,12 @@ export class BlogService {
   }
 
   getBlogById(id: string): Observable<Blog> {
-    return this.http.get<Blog>(`${this.apiUrl}/blog/${id}`);
+    return this.http.get<Blog>(`${this.apiUrl}/blogs/${id}`);
   } 
+
+  getLatestBlog(): Observable<Blog> {
+    return this.http.get<Blog>(`${this.apiUrl}/blogs/latest`);
+  }
 
   // deleteByTitle(title: string): void {
   //   const originalLength = this.getBlogs.length;

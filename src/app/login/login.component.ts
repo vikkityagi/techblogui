@@ -16,32 +16,39 @@ export class LoginComponent {
   showForgot = false;
   private logger = Logger;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(private auth: AuthService, private router: Router) { }
 
   login() {
     this.auth.login(this.email, this.password).subscribe({
       next: (data) => {
-        if(data.role === 'admin') {
+        if (data.role === 'admin') {
           alert('Welcome Admin!');
           this.router.navigate(['/add-blog']);
         }
-        if(data.role === 'user') {
+        if (data.role === 'user') {
           alert('Welcome User!');
           this.router.navigate(['/history']);
         }
         this.auth.setUserEmail(data.email);
         this.auth.setUserRole(data.role);
+        this.auth.setUserEmailSubscription(data.email);
+        this.auth.setUserRoleSubscription(data.role);
         this.logger.info('User logged in:', this.auth.getUserEmail(), 'Role:', this.auth.getUserRole());
-        
-        
-        
+
+
+
       },
       error: err => {
         alert('Login failed. Please check your credentials.');
         this.logger.error(err);
       }
     });
+
+
+
   }
+
+  
 
   toggleForgot() {
     this.showForgot = !this.showForgot;

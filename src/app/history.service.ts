@@ -35,8 +35,8 @@ export class HistoryService {
     return this.http.get<BlogHistory[]>(`${this.url}/history/${userEmail}`);
   }
 
-  markAsPaid(id: string, status: boolean): Observable<void> {
-    return this.http.get<void>(`${this.url}/history/${id}/pay/${status}`);
+  markAsPaid(id: string, status: boolean): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/history/${id}/pay/${status}`);
   }
 
   getHistory(userEmail: string): Observable<BlogHistory[]> {

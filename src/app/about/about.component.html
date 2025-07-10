@@ -1,0 +1,16 @@
+<div style="text-align: right; margin-bottom: 1rem;">
+  <label>🌍 Language:</label>
+  <select (change)="changeLang($event)">
+    <option value="en">English</option>
+    <option value="hi">हिंदी</option>
+    <option value="ta">தமிழ்</option>
+    <option value="gu">ગુજરાતી</option>
+  </select>
+</div>
+
+<mat-card>
+  <mat-card-title>🌐 About TechYatraWithVikki</mat-card-title>
+  <mat-card-content>
+    <p>{{ translatedText }}</p>
+  </mat-card-content>
+</mat-card>

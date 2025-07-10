@@ -70,14 +70,14 @@ export class UserHistoryComponent implements OnInit {
     }
   }
 
-  pay(id: string): void {
+  pay(blogHistoryid: string,blogId: any): void {
 
     if (this.auth.getUserRole() == null && this.auth.getUserEmail() == null) {
       alert('Please login first!');
       this.router.navigate(['/login']);
       return;
     }
-    this.logger.info('Initiating payment for blog:', id);
+    this.logger.info('Initiating payment for blog:', blogHistoryid);
     this.logger.info('User email:', this.auth.getUserEmail());
     localStorage.setItem('email', this.auth.getUserEmail() || '');
     const options: any = {
@@ -89,15 +89,16 @@ export class UserHistoryComponent implements OnInit {
       handler: (response: any) => {
         const email = localStorage.getItem('email');
         if (email && response['razorpay_payment_id']) {
-          this.historyService.markAsPaid(id, true).subscribe({
-            next: () => {
+          this.historyService.markAsPaid(blogHistoryid, true).subscribe({
+            next: (status) => {
               alert('✅ Payment Successful! Blog unlocked.');
-              const paidBlog = this.selectedBlog.find((b: any) => b.blog.id === id);
-              if (paidBlog) {
-                paidBlog.isPaid = true;
-                this.cdr.detectChanges(); // Ensure change detection runs
-                // Force Angular to detect the change
-                // this.selectedBlog = [...this.selectedBlog];
+              if (status) {
+                this.logger.info('blogHistoryid', blogHistoryid);
+                this.logger.info('selectedblog',this.selectedBlog);
+                this.selectedBlog.find((b: any) => b.blog.id === blogId).isPaid = true; // Update the blog's paid status
+                this.logger.info('selectedblog after payment',this.selectedBlog);
+                this.cdr.detectChanges(); // Trigger change detection
+                
               }
             }, error: err => {
               this.logger.error('Error marking blog as paid:', err);

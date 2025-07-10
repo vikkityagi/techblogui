@@ -1,36 +1,40 @@
-<mat-card>
-  <mat-card-title>Login</mat-card-title>
+<mat-card class="login-card">
+  <mat-card-title class="login-title">🔐 Login to Your Account</mat-card-title>
 
-  <mat-form-field appearance="fill" style="width: 100%;">
-    <mat-label>Email</mat-label>
-    <input matInput [(ngModel)]="email" />
-  </mat-form-field>
-
-  <mat-form-field appearance="fill" style="width: 100%;">
-    <mat-label>Password</mat-label>
-    <input matInput type="password" [(ngModel)]="password" />
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" (click)="login()">Login</button>
-
-  <p style="margin-top: 1rem;">
-    Don’t have an account? <a routerLink="/signup">Sign Up</a>
-  </p>
-
-  <!-- 🔐 Forgot Password Toggle -->
-  <p style="margin-top: 1rem;">
-    <a (click)="toggleForgot()" style="cursor: pointer;">Forgot Password?</a>
-  </p>
-
-  <!-- 🔐 Forgot Password Section -->
-  <div *ngIf="showForgot">
-    <mat-form-field appearance="fill" style="width: 100%;">
-      <mat-label>New Password</mat-label>
-      <input matInput [(ngModel)]="newPassword" type="password" />
+  <mat-card-content>
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput [(ngModel)]="email" type="email" />
     </mat-form-field>
 
-    <button mat-stroked-button color="accent" (click)="resetPassword()">
-      Reset Password
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" [(ngModel)]="password" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="login-btn" (click)="login()">
+      🔓 Login
     </button>
-  </div>
+
+    <p class="link-text">
+      Don’t have an account?
+      <a routerLink="/signup">Sign Up</a>
+    </p>
+
+    <p class="link-text">
+      <a (click)="toggleForgot()" style="cursor: pointer;">Forgot Password?</a>
+    </p>
+
+    <!-- 🔐 Forgot Password Section -->
+    <div *ngIf="showForgot" class="forgot-section">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>New Password</mat-label>
+        <input matInput [(ngModel)]="newPassword" type="password" />
+      </mat-form-field>
+
+      <button mat-stroked-button color="accent" (click)="resetPassword()">
+        🔁 Reset Password
+      </button>
+    </div>
+  </mat-card-content>
 </mat-card>

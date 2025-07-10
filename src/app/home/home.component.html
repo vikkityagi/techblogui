@@ -1,1 +1,19 @@
-<p>home works!</p>
+<mat-card class="latest-blog-card">
+  <div class="blog-date-container">
+    <span class="blog-date">🗓️ {{ blog.date | date:'mediumDate' }}</span>
+  </div>
+
+  <mat-card-header>
+    <mat-card-title class="featured-title">🔥 Latest Blog</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <h2 *ngIf="blog" class="blog-title">{{ blog.title }}</h2>
+    <p *ngIf="blog" class="blog-content">{{ blog.content }}</p>
+    <p *ngIf="blog  == null" class="no-blog">
+      No blog found, pls contact to admin on vikkityagi1998@gmail.com or 7017345391
+    </p>
+
+
+  </mat-card-content>
+</mat-card>

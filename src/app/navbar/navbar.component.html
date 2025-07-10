@@ -4,19 +4,23 @@
   <span>TechYatraWithVikki</span>
   <span class="spacer"></span>
 
-  <!-- Show only for user -->
-  <ng-container *ngIf="role === 'user'">
-    <a mat-button routerLink="/">📰 Blog Posts</a>
-    <a mat-button routerLink="/history">📌 My History</a>
-  </ng-container>
-
   <!-- Show only for admin -->
   <ng-container *ngIf="role === 'admin'">
     <a mat-button routerLink="/add-blog">✍️ Blog Form</a>
   </ng-container>
 
-  <a mat-button routerLink="/login">🔐 Login</a>
-  <a mat-button routerLink="/signup">Signup</a>
-  <a mat-button routerLink="/blog-list">Blog List</a>
-  <a mat-button  routerLink="/history">User History</a>
+  <ng-container >
+    <a mat-button *ngIf="email" >👤 {{ email }}</a>&nbsp;&nbsp;
+    <a mat-button routerLink="/home" routerLinkActive="active-link">🏠 Home</a>
+    <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
+    <!-- <a mat-button routerLink="/contact" routerLinkActive="active-link">Contact</a>
+    <a mat-button routerLink="/faq" routerLinkActive="active-link"> FAQ</a> -->
+    <a mat-button routerLink="/login" routerLinkActive="active-link">🔐 Login</a>
+    <a mat-button routerLink="/signup" routerLinkActive="active-link">Signup</a>
+    <a mat-button routerLink="/blog-list" routerLinkActive="active-link">Blog List</a>
+    <a mat-button routerLink="/history" routerLinkActive="active-link">My History</a>
+    
+    
+    <a mat-button href="#" routerLinkActive="active-link" (click)="logout()" *ngIf="email">Log-out</a>
+  </ng-container>
 </mat-toolbar>

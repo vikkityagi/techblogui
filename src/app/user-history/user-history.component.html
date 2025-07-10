@@ -1,17 +1,33 @@
-<h2>📜 My Saved Blogs</h2>
-<div style="display: flex;flex-wrap: wrap;gap: 1rem;margin-bottom: 1rem;align-items: flex-start;">
+<h2 class="section-heading">📜 My Saved Blogs</h2>
 
+<div class="history-container">
 
-  <!-- 🔍 Autocomplete Search -->
+  
 
-  <div *ngIf="selectedBlog"
-    style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; align-items: flex-start;">
-    <mat-card *ngFor="let blog of selectedBlog; trackBy: trackByBlogId"
-      style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 1rem;">
-      {{blog.id}}
-      {{blog.isPaid}}
-      <mat-card-title>{{ blog.blog.title }}</mat-card-title>
-      <mat-card-content>
+  <!-- 🔍 Search Autocomplete -->
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search Your Blog Title</mat-label>
+    <input matInput [(ngModel)]="searchTitle" [matAutocomplete]="auto" placeholder="Search saved blog"
+      (ngModelChange)="search()" />
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let title of titles" [value]="title">{{ title }}</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- 📝 Blog Cards -->
+  <div class="blogs-wrapper" *ngIf="selectedBlog && selectedBlog.length > 0">
+    <mat-card *ngFor="let blog of selectedBlog; trackBy: trackByBlogId" class="blog-card">
+      <div class="blog-meta">
+        
+        
+        <span class="blog-status" [ngClass]="{ paid: blog.isPaid, unpaid: !blog.isPaid }">
+          {{ blog.isPaid ? '✅ Paid' : '💸 Unpaid' }}
+        </span>
+      </div>
+
+      <mat-card-title class="blog-title">{{ blog.blog.title }}</mat-card-title>
+
+      <mat-card-content class="blog-content">
         <div *ngIf="blog.isPaid; else shortContent">
           {{ blog.blog.content }}
         </div>
@@ -20,33 +36,19 @@
         </ng-template>
       </mat-card-content>
 
-
-      <!-- Show Pay Button only if not paid -->
-      <div *ngIf="!blog.isPaid" style="margin-top: 0.5rem;">
-        <button mat-raised-button color="primary" (click)="pay(blog.id)">
+      <div class="blog-actions">
+        <button *ngIf="!blog.isPaid" mat-raised-button color="primary" (click)="pay(blog.id,blog.blog.id)">
           💰 Read Full Blog (₹2)
         </button>
-      </div>
-
-      <div *ngIf="blog.isPaid" style="margin-top: 1rem; color: green;">
-        ✅ You have already paid for this blog.
+        <div *ngIf="blog.isPaid" class="paid-text">
+          ✅ You have already paid for this blog.
+        </div>
       </div>
     </mat-card>
   </div>
 
   <!-- 😔 If No Blog -->
-  <div *ngIf="!selectedBlog && history.length === 0" style="color: gray; margin-top: 2rem;">
-    No blog saved in your history yet.
+  <div *ngIf="!selectedBlog || selectedBlog.length === 0" class="no-history-msg">
+    😔 No blog saved in your history yet.
   </div>
-
-  <mat-form-field appearance="fill" style="min-width: 250px; max-width: 300px; margin-left: auto;">
-    <mat-label>Search Your Blog Title</mat-label>
-    <input type="text" matInput [(ngModel)]="searchTitle" [matAutocomplete]="auto" placeholder="Search saved blog"
-      (ngModelChange)="search()" />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let title of titles" [value]="title">{{ title }}</mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-
-
 </div>

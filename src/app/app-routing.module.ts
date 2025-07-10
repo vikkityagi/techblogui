@@ -6,14 +6,19 @@ import { LoginComponent } from './login/login.component';
 import { UserHistoryComponent } from './user-history/user-history.component';
 import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
+import { authGuard } from './auth.guard';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent }, // Assuming you have a HomePageComponent
-  { path: 'add-blog', component: BlogFormComponent },
+  { path: '', component: HomeComponent },
+  { path: 'add-blog', component: BlogFormComponent, canActivate: [authGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'history', component: UserHistoryComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'blog-list', component: BlogListComponent },
+  { path: 'history', component: UserHistoryComponent, canActivate: [authGuard] },
+  { path: 'blog-list', component: BlogListComponent, canActivate: [authGuard] },
+  { path: 'home', component: HomeComponent },
+  { path: 'about', component: AboutComponent },
+  
 ];
 
 @NgModule({
