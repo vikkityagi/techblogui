@@ -34,6 +34,10 @@ export class LoginComponent {
         this.auth.setUserEmailSubscription(data.email);
         this.auth.setUserRoleSubscription(data.role);
         this.logger.info('User logged in:', this.auth.getUserEmail(), 'Role:', this.auth.getUserRole());
+        localStorage.setItem('userEmail', data.email);
+        localStorage.setItem('userRole', data.role);
+        localStorage.setItem('userEmailSubscription', data.email);
+        localStorage.setItem('userRoleSubscription', data.role);
 
 
 

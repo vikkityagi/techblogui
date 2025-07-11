@@ -8,7 +8,7 @@
       <mat-option value="date">Date</mat-option>
     </mat-select>
   </mat-form-field>
-  
+
 
 
   <!-- 🔍 Title Search -->
@@ -25,7 +25,7 @@
 
   <mat-form-field appearance="fill" style="min-width: 250px; max-width: 300px;" *ngIf="filterType === 'title'">
     <mat-label>Search Blog by Title</mat-label>
-    <mat-select (selectionChange)="filterBlogByTitle($event.value)" >
+    <mat-select (selectionChange)="filterBlogByTitle($event.value)">
       <mat-option *ngFor="let title of allTitles" [value]="title.id">
         {{ title.title }}
       </mat-option>
@@ -50,8 +50,8 @@
     </mat-form-field>
   </div>
 </div>
-  <a href="#"  (click)="showAll()" *ngIf="filterType === 'date' || filterType === 'title'">
-    Show All Blogs</a>
+<a href="#" (click)="showAll()" *ngIf="filterType === 'date' || filterType === 'title'">
+  Show All Blogs</a>
 
 
 
@@ -68,26 +68,24 @@
 
     <div
       style="position: absolute; top: 0.5rem; right: 0.5rem; display: flex; flex-direction: column; align-items: flex-end;">
+
       
-        <mat-icon matTooltip="Save to history" (click)="saveToHistory(blog)" style="cursor: pointer;">history</mat-icon>
-      <!-- </button> -->
-    
+
       <span style="font-size: 0.8rem; color: gray;">🗓️ {{ blog.date | date:'mediumDate' }}</span>
 
-      <!-- <button *ngIf="role === 'user'" mat-icon-button color="accent" (click)="saveToHistory(blog)">
-        <mat-icon>bookmark</mat-icon>
-      </button> -->
     </div>
     <mat-card-title>{{ blog.title }}</mat-card-title>
     <mat-card-content>
       {{ blog.content | slice: 0:100 }}...
     </mat-card-content>
 
-    <button mat-raised-button color="accent" (click)="pay(blog)">
-      Read More (₹2)
+    <button mat-stroked-button color="accent" (click)="saveToHistory(blog)">
+      <mat-icon>history</mat-icon>
+      Save to History to Read Full Blog
     </button>
 
-    
+
+
   </mat-card>
 
   <!-- 🔇 No Blog Found -->

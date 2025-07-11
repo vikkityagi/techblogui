@@ -39,7 +39,10 @@ export class HistoryService {
     return this.http.get<boolean>(`${this.url}/history/${id}/pay/${status}`);
   }
 
-  getHistory(userEmail: string): Observable<BlogHistory[]> {
+  getHistory(userEmail: string , fromDate?: string, toDate?: string): Observable<BlogHistory[]> {
+    if (fromDate && toDate) {
+      return this.http.get<BlogHistory[]>(`${this.url}/history/${userEmail}?from=${fromDate}&to=${toDate}`);
+    }
     return this.http.get<BlogHistory[]>(`${this.url}/history/${userEmail}`);
   }
 

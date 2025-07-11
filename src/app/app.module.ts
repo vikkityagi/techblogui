@@ -23,7 +23,9 @@ import { HomeComponent } from './home/home.component';
 import { MatDatepickerModule } from '@angular/material/datepicker'; // Import MatDatePickerModule for date selection
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { AboutComponent } from './about/about.component'; // Import MatTooltipModule for tooltips
+import { AboutComponent } from './about/about.component';
+import { BlogDialogComponent } from './blog-dialog/blog-dialog.component'; // Import MatTooltipModule for tooltips
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { AboutComponent } from './about/about.component'; // Import MatTooltipMo
     UserHistoryComponent,
     SignupComponent,
     HomeComponent,
-    AboutComponent
+    AboutComponent,
+    BlogDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { AboutComponent } from './about/about.component'; // Import MatTooltipMo
     MatAutocompleteModule,
     MatDatepickerModule, // Import MatDatepickerModule for date selection
     MatNativeDateModule, // Import MatNativeDateModule for native date support
-    MatTooltipModule
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -27,6 +27,18 @@ export class HomeComponent implements OnInit {
         console.error('Error fetching latest blog:', err);
       }
     });
+
+    if (localStorage.getItem('userEmail') && localStorage.getItem('userRole') && localStorage.getItem('userEmailSubscription') && localStorage.getItem('userRoleSubscription')) {
+      alert('Welcome back! You are already logged in.');
+      this.authService.setUserEmail(localStorage.getItem('userEmail')!);
+      const userRole = localStorage.getItem('userRole');
+      if (userRole === 'admin' || userRole === 'user') {
+        this.authService.setUserRole(userRole);
+      }
+      this.authService.setUserEmailSubscription(localStorage.getItem('userEmailSubscription')!);
+      this.authService.setUserRoleSubscription(localStorage.getItem('userRoleSubscription')!);
+    }
+
   }
 
   

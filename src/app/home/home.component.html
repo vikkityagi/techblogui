@@ -1,6 +1,6 @@
 <mat-card class="latest-blog-card">
   <div class="blog-date-container">
-    <span class="blog-date">🗓️ {{ blog.date | date:'mediumDate' }}</span>
+    <span class="blog-date" *ngIf="blog">🗓️ {{ blog.date | date:'mediumDate' }}</span>
   </div>
 
   <mat-card-header>

@@ -76,8 +76,14 @@ export class BlogListComponent {
     let email = this.authService.getUserEmail();
     if (email) {
       this.historyService.addBlogInHistory(email, blog, false).subscribe({
-        next: () => {
-          this.logger.info('Blog added to history:', blog.title);
+        next: (blogHistory) => {
+          if(!blogHistory || !blogHistory.id) {
+            this.logger.error('Blog not saved in history, received empty response:', blogHistory);
+            alert('❌ Failed to add blog to history. Please try again later or May be blog already exists in history.');
+            return;
+          }
+          this.logger.info('Blog saved in history:', blogHistory);
+          this.logger.info('Blog added to history:', blogHistory.blog.title);
           alert('✅ Blog added to your history!');
         },
         error: (err) => {
@@ -149,49 +155,49 @@ export class BlogListComponent {
     }
   }
 
-  pay(blog: Blog): void {
+  // pay(blog: Blog): void {
 
-    if (this.authService.getUserRole() == null && this.authService.getUserEmail() == null) {
-      alert('Please login first!');
-      this.router.navigate(['/login']);
-      return;
-    }
-    this.logger.info('Initiating payment for blog:', blog.title);
-    this.logger.info('User email:', this.authService.getUserEmail());
-    localStorage.setItem('email', this.authService.getUserEmail() || '');
-    const options: any = {
-      key: 'rzp_test_LeBHwqYzi5GJsS', // Replace with your Razorpay key
-      amount: 200, // Amount in paisa (₹2)
-      currency: 'INR',
-      name: 'TechYatra Blog',
-      description: 'Blog Access Payment',
-      handler: (response: any) => {
-        const email = localStorage.getItem('email');
-        if (email && response['razorpay_payment_id']) {
-          this.historyService.addBlogInHistory(email, blog, true).subscribe({
-            next: () => {
-              alert('✅ Payment Successful! Blog unlocked. and Blog saved in history.');
+  //   if (this.authService.getUserRole() == null && this.authService.getUserEmail() == null) {
+  //     alert('Please login first!');
+  //     this.router.navigate(['/login']);
+  //     return;
+  //   }
+  //   this.logger.info('Initiating payment for blog:', blog.title);
+  //   this.logger.info('User email:', this.authService.getUserEmail());
+  //   localStorage.setItem('email', this.authService.getUserEmail() || '');
+  //   const options: any = {
+  //     key: 'rzp_test_LeBHwqYzi5GJsS', // Replace with your Razorpay key
+  //     amount: 200, // Amount in paisa (₹2)
+  //     currency: 'INR',
+  //     name: 'TechYatra Blog',
+  //     description: 'Blog Access Payment',
+  //     handler: (response: any) => {
+  //       const email = localStorage.getItem('email');
+  //       if (email && response['razorpay_payment_id']) {
+  //         this.historyService.addBlogInHistory(email, blog, true).subscribe({
+  //           next: () => {
+  //             alert('✅ Payment Successful! Blog unlocked. and Blog saved in history.');
 
-            }, error: err => {
-              this.logger.error('Error saving blog in history:', err);
-              alert('❌ Payment successful but failed to save blog in history. Please try again later.');
-            }
-          });
+  //           }, error: err => {
+  //             this.logger.error('Error saving blog in history:', err);
+  //             alert('❌ Payment successful but failed to save blog in history. Please try again later.');
+  //           }
+  //         });
 
-        } else {
-          alert('Please login first!');
-        }
-        // this.historyService.addBlogInHistory(email, blog);
-      },
-      prefill: {
-        name: 'Vikki',
-        email: 'vikkityagi1998@gmail.com'
-      }
-    };
+  //       } else {
+  //         alert('Please login first!');
+  //       }
+  //       // this.historyService.addBlogInHistory(email, blog);
+  //     },
+  //     prefill: {
+  //       name: 'Vikki',
+  //       email: 'vikkityagi1998@gmail.com'
+  //     }
+  //   };
 
-    const rzp = new Razorpay(options);
-    rzp.open();
-  }
+  //   const rzp = new Razorpay(options);
+  //   rzp.open();
+  // }
 
   showAll(): void {
     this.logger.info('Showing all blogs');

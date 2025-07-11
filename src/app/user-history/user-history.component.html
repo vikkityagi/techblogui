@@ -1,49 +1,69 @@
 <h2 class="section-heading">📜 My Saved Blogs</h2>
 
-<div class="history-container">
-
-  
-
-  <!-- 🔍 Search Autocomplete -->
-  <mat-form-field appearance="outline" class="search-field">
-    <mat-label>Search Your Blog Title</mat-label>
-    <input matInput [(ngModel)]="searchTitle" [matAutocomplete]="auto" placeholder="Search saved blog"
-      (ngModelChange)="search()" />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let title of titles" [value]="title">{{ title }}</mat-option>
+<!-- 🔍 Unified Search Filters -->
+<div class="filter-bar">
+  <!-- Title Search -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>Search Blog Title</mat-label>
+    <input matInput [(ngModel)]="searchId" [matAutocomplete]="auto" placeholder="Search" (ngModelChange)="search()" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayTitle">
+      <mat-option *ngFor="let title of titles" [value]="title">{{ title.title }}</mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+  <!-- From Date -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>From</mat-label>
+    <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="filterBlogByDate()">
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1></mat-datepicker>
+  </mat-form-field>
+
+  <!-- To Date -->
+  <mat-form-field appearance="outline" class="filter-field">
+    <mat-label>To</mat-label>
+    <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" (dateChange)="filterBlogByDate()">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
+</div>
+<div class="history-container">
+
+
+
 
   <!-- 📝 Blog Cards -->
   <div class="blogs-wrapper" *ngIf="selectedBlog && selectedBlog.length > 0">
     <mat-card *ngFor="let blog of selectedBlog; trackBy: trackByBlogId" class="blog-card">
-      <div class="blog-meta">
-        
-        
-        <span class="blog-status" [ngClass]="{ paid: blog.isPaid, unpaid: !blog.isPaid }">
-          {{ blog.isPaid ? '✅ Paid' : '💸 Unpaid' }}
-        </span>
+
+      <div
+        style="position: absolute; top: 0.5rem; right: 0.5rem; display: flex; flex-direction: column; align-items: flex-end;">
+
+
+
+        <span style="font-size: 0.8rem; color: gray;">🗓️ {{ blog.createdAt | date:'mediumDate' }}</span>
+
       </div>
 
       <mat-card-title class="blog-title">{{ blog.blog.title }}</mat-card-title>
 
       <mat-card-content class="blog-content">
         <div *ngIf="blog.isPaid; else shortContent">
-          {{ blog.blog.content }}
+          {{ blog.blog.content | slice: 0:100 }}...
         </div>
         <ng-template #shortContent>
+
           {{ blog.blog.content | slice: 0:100 }}...
         </ng-template>
       </mat-card-content>
 
-      <div class="blog-actions">
-        <button *ngIf="!blog.isPaid" mat-raised-button color="primary" (click)="pay(blog.id,blog.blog.id)">
-          💰 Read Full Blog (₹2)
+      <mat-card-actions *ngIf="blog">
+        <button mat-raised-button color="primary" (click)="readFullBlog(blog)">
+          <mat-icon>visibility</mat-icon> Read Full Blog
         </button>
-        <div *ngIf="blog.isPaid" class="paid-text">
-          ✅ You have already paid for this blog.
-        </div>
-      </div>
+      </mat-card-actions>
+
+
     </mat-card>
   </div>
 

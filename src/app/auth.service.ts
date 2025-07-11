@@ -100,9 +100,11 @@ export class AuthService {
     this.roleSubscription.next('');
 
     // Optionally, clear localStorage or sessionStorage if you're storing login info
-    localStorage.removeItem('email');
-    
-
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userEmailSubscription');
+    localStorage.removeItem('userRoleSubscription');
+    this.logger.info('User logged out successfully.');
 
 
     // Optional: redirect to login (if using router here)
