@@ -1,5 +1,9 @@
 <!-- 🔍 Autocomplete Blog Search -->
 <!-- 🔍 Right-aligned Autocomplete Search -->
+
+<div *ngIf="fromDate && toDate" style="margin-bottom: 1rem; font-weight: bold;">
+  📅 Showing history from: {{ fromDate | date:'dd MMMM yyyy' }} to {{ toDate | date:'dd MMMM yyyy' }}
+</div>
 <div style="display: flex;flex-wrap: wrap;gap: 1rem;margin-bottom: 1rem;flex-direction: row-reverse;">
   <mat-form-field appearance="fill" style="min-width: 200px;">
     <mat-label>Filter By</mat-label>
@@ -37,14 +41,14 @@
   <div *ngIf="filterType === 'date'" style="display: flex; gap: 1rem;">
     <mat-form-field appearance="fill">
       <mat-label>From Date</mat-label>
-      <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="filterBlogByDate()">
+      <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="filterBlogByDate()" [max]="today">
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>To Date</mat-label>
-      <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" (dateChange)="filterBlogByDate()">
+      <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" (dateChange)="filterBlogByDate()" [max]="today">
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
@@ -69,7 +73,7 @@
     <div
       style="position: absolute; top: 0.5rem; right: 0.5rem; display: flex; flex-direction: column; align-items: flex-end;">
 
-      
+
 
       <span style="font-size: 0.8rem; color: gray;">🗓️ {{ blog.date | date:'mediumDate' }}</span>
 

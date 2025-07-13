@@ -4,11 +4,12 @@ import { Blog } from '../model/blog.model';
 import { HistoryService } from '../history.service';
 import { AuthService } from '../auth.service';
 import { BlogHistory } from '../model/blog-history.model';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Logger } from 'src/logger/logger';
 import { MatDialog } from '@angular/material/dialog';
 import { BlogDialogComponent } from '../blog-dialog/blog-dialog.component';
 import { formatDate } from '@angular/common';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-user-history',
@@ -31,17 +32,27 @@ export class UserHistoryComponent implements OnInit {
   private logger = Logger;
   fromDate: Date | null = null;
   toDate: Date | null = null;
+  today: Date = new Date();
 
 
   constructor(private auth: AuthService, private historyService: HistoryService, private router: Router, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    window.addEventListener('storage', this.handleStorageChange.bind(this));
     this.email = this.auth.getUserEmail();
 
     if (this.email) {
       this.historyService.getHistory(this.email).subscribe({
         next: (history) => {
           this.history = history;
+          // Get all blog dates
+          const dates = history.map((h:any) => new Date(h.createdAt));
+
+          // Sort dates to find min and max
+          const sortedDates = dates.sort((a, b) => a.getTime() - b.getTime());
+
+          this.fromDate = sortedDates[0]; // Earliest date
+          this.toDate = sortedDates[sortedDates.length - 1]; // Latest date
           this.titles = history.map((h) => ({
             id: h.blog.id!,
             title: h.blog.title
@@ -64,6 +75,15 @@ export class UserHistoryComponent implements OnInit {
     } else {
       alert('Please login to view your history.');
       this.router.navigate(['/login']);
+    }
+  }
+
+  handleStorageChange(event: StorageEvent) {
+    const keysToWatch = ['userEmail', 'userRole', 'userEmailSubscription', 'userRoleSubscription'];
+
+    if (event.newValue === null && keysToWatch.includes(event.key!)) {
+      this.auth.logout();
+
     }
   }
 
@@ -102,13 +122,13 @@ export class UserHistoryComponent implements OnInit {
       // });
     } else {
       alert('Please select both From and To dates.');
-      
+
     }
   }
 
   formatDate(date: Date): string {
-      return formatDate(date, 'yyyy-MM-dd', 'en-IN'); // Use local format
-    }
+    return formatDate(date, 'yyyy-MM-dd', 'en-IN'); // Use local format
+  }
 
   search(): void {
     if (this.email) {

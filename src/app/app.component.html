@@ -5,3 +5,52 @@
 <div style="margin: 1rem;">
   <router-outlet></router-outlet>
 </div>
+
+
+<footer style="
+  background: linear-gradient(to right, #f9f9f9, #f1f1f1);
+  text-align: center;
+  padding: 2rem 1rem;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  border-top: 1px solid #e0e0e0;
+  font-family: 'Poppins', sans-serif;
+">
+  <h3 style="color: #333; font-weight: 600; margin-bottom: 1rem;">
+    📩 Contact Me
+  </h3>
+
+  <p style="margin: 0.3rem 0;">
+    📞 <a href="tel:+917017345391" style="color: #007BFF; text-decoration: none;">
+      +91 7017345391
+    </a>
+  </p>
+  <p style="margin: 0.3rem 0;">
+    📧 <a href="mailto:vikkityagi1998@gmail.com" style="color: #007BFF; text-decoration: none;">
+      vikkityagi1998@gmail.com
+    </a>
+  </p>
+  <p style="margin: 0.3rem 0;">
+    📧 <a href="mailto:vikkityagi72@gmail.com" style="color: #007BFF; text-decoration: none;">
+      vikkityagi72@gmail.com
+    </a>
+  </p>
+
+  <!-- ▶️ Show Payment Dialog Again -->
+  <p style="margin: 1.5rem 0;">
+    <button mat-flat-button color="primary" (click)="openPaymentDialog()">
+      💳 Show Payment Dialog Again
+    </button>
+  </p>
+
+  <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+    © {{ currentYear }} <strong>Vikki Tyagi</strong> — All rights reserved.
+  </p>
+</footer>
+
+<!-- 🔄 Floating Support Button -->
+<button mat-fab color="accent"
+  style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"
+  matTooltip="Support Me"
+  (click)="openPaymentDialog()">
+  💳
+</button>

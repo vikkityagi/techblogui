@@ -1,15 +1,25 @@
+<div *ngIf="errorMessage" style="color: red; margin-bottom: 0.75rem;">
+  {{ errorMessage }}
+</div>
+
+
 <mat-card class="login-card">
   <mat-card-title class="login-title">🔐 Login to Your Account</mat-card-title>
 
   <mat-card-content>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="email" type="email" />
+      <input matInput [(ngModel)]="email" type="email" required/>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Password</mat-label>
-      <input matInput type="password" [(ngModel)]="password" />
+      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required />
+
+      <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+        [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </mat-form-field>
 
     <button mat-raised-button color="primary" class="login-btn" (click)="login()">
@@ -29,7 +39,11 @@
     <div *ngIf="showForgot" class="forgot-section">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>New Password</mat-label>
-        <input matInput [(ngModel)]="newPassword" type="password" />
+        <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="newPassword"  />
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+        [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
       </mat-form-field>
 
       <button mat-stroked-button color="accent" (click)="resetPassword()">

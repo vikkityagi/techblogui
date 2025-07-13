@@ -1,20 +1,31 @@
+<div *ngIf="errorMessage" style="color: red; margin-bottom: 0.75rem;">
+  {{ errorMessage }}
+</div>
+
+
 <mat-card class="signup-card">
   <mat-card-title class="signup-title">📝 Create Your Account</mat-card-title>
 
   <mat-card-content>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="email" type="email" />
+      <input matInput [(ngModel)]="email" type="email" required />
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Password</mat-label>
-      <input matInput type="password" [(ngModel)]="password" />
+      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required />
+
+      <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+        [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
+        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
     </mat-form-field>
+
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Select Role</mat-label>
-      <mat-select [(ngModel)]="role">
+      <mat-select [(ngModel)]="role" required>
         <mat-option value="user">User</mat-option>
       </mat-select>
     </mat-form-field>

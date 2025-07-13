@@ -1,0 +1,28 @@
+{
+  "ABOUT_TITLE": "📘 How the website works?",
+  "HOME_SECTION": "1️⃣ Home Section",
+  "HOME_DESC": "When you visit the website, you will see the latest blog posted recently.",
+
+  "ABOUT_SECTION": "2️⃣ About Section",
+  "ABOUT_DESC": "This section helps you understand where and how to find things on the website.",
+
+  "LOGIN_SECTION": "3️⃣ Login / Sign-up",
+  "LOGIN_DESC": "To view Blog List or My History, you must login. If you don't have an account, you can sign up from the login page.",
+  "LOGIN_NOTE": "After signing up, a message appears: 'Sign-up successful. Please login to continue.'",
+
+  "AFTER_LOGIN": "4️⃣ After Login",
+  "AFTER_LOGIN_DESC": "Blog List and My History will become active. You can filter blogs by Title or Date and save any blog to My History for later reading.",
+
+  "MY_HISTORY": "5️⃣ My History",
+  "MY_HISTORY_DESC": "All blogs you've saved appear here. If you're new, it may be empty initially.",
+
+  "READING": "6️⃣ Reading a Blog",
+  "READING_DESC": "Click 'Read Full Blog' to open blog in dialog. It has fade background and small font. Close dialog anytime. If not logged out, you'll stay logged in even after closing browser.",
+
+  "SUPPORT": "7️⃣ Support & Contribution",
+  "SUPPORT_DESC": "A pink icon in the footer opens a payment dialog with QR and bank details for voluntary contributions.",
+
+  "DIALOG_TIP": "🔄 To reopen closed dialog, click the pink icon again.",
+
+  "WEBSITE_GOAL": "Our website offers a simple, safe, and user-friendly reading experience."
+}

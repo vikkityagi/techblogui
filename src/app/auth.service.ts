@@ -80,13 +80,8 @@ export class AuthService {
   //   this.currentUser = null;
   // }
 
-  resetPassword(email: string, newPassword: string): boolean {
-    const user = this.users.find(u => u.email === email);
-    if (user) {
-      user.password = newPassword;
-      return true;
-    }
-    return false;
+  resetPassword(email: string, newPassword: string): Observable<User> {
+    return this.http.post<User>(`${this.url}/users/reset`,{email: email,password: newPassword});
   }
 
   logout(): void {
@@ -100,15 +95,30 @@ export class AuthService {
     this.roleSubscription.next('');
 
     // Optionally, clear localStorage or sessionStorage if you're storing login info
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userRole');
-    localStorage.removeItem('userEmailSubscription');
-    localStorage.removeItem('userRoleSubscription');
-    this.logger.info('User logged out successfully.');
+    const keysToRemove = [
+      'userEmail',
+      'userRole',
+      'userEmailSubscription',
+      'userRoleSubscription'
+    ];
+
+    const anyKeyExists = keysToRemove.some(key => localStorage.getItem(key) !== null);
+
+    if (anyKeyExists) {
+      keysToRemove.forEach(key => {
+        if (localStorage.getItem(key) !== null) {
+          localStorage.removeItem(key);
+        }
+      });
+      alert('✅ User logged out');
+      this.router.navigate(['/login']); // only if Router is injected
+    } else {
+      console.log('⚠️ Logout skipped: no keys found');
+    }
 
 
     // Optional: redirect to login (if using router here)
-    this.router.navigate(['/login']); // only if Router is injected
+    
   }
 
 }

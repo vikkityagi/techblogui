@@ -1,5 +1,10 @@
 <h2 class="section-heading">📜 My Saved Blogs</h2>
 
+<div *ngIf="fromDate && toDate" style="margin-bottom: 1rem; font-weight: bold;">
+  📅 Showing history from: {{ fromDate | date:'dd MMMM yyyy' }} to {{ toDate | date:'dd MMMM yyyy' }}
+</div>
+
+
 <!-- 🔍 Unified Search Filters -->
 <div class="filter-bar">
   <!-- Title Search -->
@@ -14,7 +19,7 @@
   <!-- From Date -->
   <mat-form-field appearance="outline" class="filter-field">
     <mat-label>From</mat-label>
-    <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="filterBlogByDate()">
+    <input matInput [matDatepicker]="picker1" [(ngModel)]="fromDate" (dateChange)="filterBlogByDate()" [max]="today">
     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
     <mat-datepicker #picker1></mat-datepicker>
   </mat-form-field>
@@ -22,7 +27,7 @@
   <!-- To Date -->
   <mat-form-field appearance="outline" class="filter-field">
     <mat-label>To</mat-label>
-    <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" (dateChange)="filterBlogByDate()">
+    <input matInput [matDatepicker]="picker2" [(ngModel)]="toDate" (dateChange)="filterBlogByDate()" [max]="today">
     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
     <mat-datepicker #picker2></mat-datepicker>
   </mat-form-field>

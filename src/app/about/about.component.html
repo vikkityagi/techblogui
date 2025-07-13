@@ -1,16 +1,38 @@
 <div style="text-align: right; margin-bottom: 1rem;">
-  <label>🌍 Language:</label>
-  <select (change)="changeLang($event)">
+  🌐 <label for="lang">Language:</label>
+  <select id="lang" (change)="onLanguageChange($event)">
     <option value="en">English</option>
     <option value="hi">हिंदी</option>
-    <option value="ta">தமிழ்</option>
-    <option value="gu">ગુજરાતી</option>
   </select>
+
 </div>
 
-<mat-card>
-  <mat-card-title>🌐 About TechYatraWithVikki</mat-card-title>
+<mat-card class="about-card">
+  <mat-card-title>{{ 'ABOUT_TITLE' | translate }}</mat-card-title>
   <mat-card-content>
-    <p>{{ translatedText }}</p>
+    <h2>{{ 'HOME_SECTION' | translate }}</h2>
+    <p>{{ 'HOME_DESC' | translate }}</p>
+
+    <h2>{{ 'ABOUT_SECTION' | translate }}</h2>
+    <p>{{ 'ABOUT_DESC' | translate }}</p>
+
+    <h2>{{ 'LOGIN_SECTION' | translate }}</h2>
+    <p>{{ 'LOGIN_DESC' | translate }}</p>
+    <p><em>{{ 'LOGIN_NOTE' | translate }}</em></p>
+
+    <h2>{{ 'AFTER_LOGIN' | translate }}</h2>
+    <p>{{ 'AFTER_LOGIN_DESC' | translate }}</p>
+
+    <h2>{{ 'MY_HISTORY' | translate }}</h2>
+    <p>{{ 'MY_HISTORY_DESC' | translate }}</p>
+
+    <h2>{{ 'READING' | translate }}</h2>
+    <p>{{ 'READING_DESC' | translate }}</p>
+
+    <h2>{{ 'SUPPORT' | translate }}</h2>
+    <p>{{ 'SUPPORT_DESC' | translate }}</p>
+
+    <h2>{{ 'DIALOG_TIP' | translate }}</h2>
+    <p><em>{{ 'WEBSITE_GOAL' | translate }}</em></p>
   </mat-card-content>
 </mat-card>

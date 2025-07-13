@@ -1,0 +1,41 @@
+<!-- <h2 mat-dialog-title style="text-align: center;">🙏 Support Me</h2> -->
+
+<mat-dialog-content style="text-align: center; padding: 1rem;">
+  <!-- QR Code Section -->
+  <h3>📷 Scan to Pay via UPI</h3>
+  <img
+    src="assets/images/scanner.jpeg"
+    alt="UPI QR Code"
+    style="max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); margin-bottom: 1rem;"
+  />
+
+  <!-- Message -->
+  <p style="font-weight: bold; color: #444;">
+    💬 Pay to me for my honesty and the useful content I share with you.
+    I don’t charge anything to read my blog, so please consider supporting me. 🙏
+  </p>
+
+  <p style="font-weight: bold; color: #444;">
+    💬 मेरे द्वारा दी गई जानकारी और ईमानदारी के लिए कृपया भुगतान करें।
+    मैं आपके ब्लॉग पढ़ने के लिए कोई शुल्क नहीं लेता, कृपया मुझे सहयोग दें। 🙏
+  </p>
+
+  <!-- Bank Details Section -->
+  <h3 style="margin-top: 2rem;">🏦 Bank Account Details</h3>
+  <div style="text-align: left; padding: 1rem; background: #f9f9f9; border-radius: 8px; box-shadow: 0 1px 5px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto;">
+    <p><strong>Account Holder:</strong> VIKKI S/O SUBHASH</p>
+    <p><strong>Bank:</strong> Punjab National Bank (PNB)</p>
+    <p><strong>Account No.:</strong> 1801001500505422</p>
+    <p><strong>IFSC Code:</strong> PUNB0180100</p>
+    <p><strong>Branch:</strong> Faloda, Muzaffarnagar, UP – 251307</p>
+    
+  </div>
+
+  <p style="margin-top: 1rem; font-size: 0.9rem; color: gray;">Auto close in {{ countdown }} seconds</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button color="primary" (click)="extendTime()">⏳ 10 सेकंड और दिखाएं</button>
+  <button mat-button color="accent" (click)="doNotShowAgain()">✅ भुगतान किया - अब न दिखाएं</button>
+  <button mat-button color="warn" (click)="close()">❌ बंद करें</button>
+</mat-dialog-actions>

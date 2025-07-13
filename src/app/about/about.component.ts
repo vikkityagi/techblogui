@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslationService } from '../translation.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-about',
@@ -12,32 +13,14 @@ export class AboutComponent {
   translatedText = this.originalText;
   selectedLang = 'en';
 
-  constructor(private translator: TranslationService) { }
+  constructor(public translate: TranslateService) {
+    translate.addLangs(['en', 'hi']);
+    translate.setDefaultLang('en');
+  }
 
-  // changeLang(event: Event) {
-  //   const lang = (event.target as HTMLSelectElement).value;
-  //   this.selectedLang = lang;
-
-  //   if (lang !== 'en') {
-  //     this.translator.translate(this.originalText, lang).subscribe(res => {
-  //       this.translatedText = res.data.translations[0].translatedText;
-  //     });
-  //   } else {
-  //     this.translatedText = this.originalText;
-  //   }
-  // }
-  changeLang(event: any) {
-    const targetLang = event.target.value;
-
-    this.translator.translate(this.originalText, targetLang).subscribe(
-      (res: any) => {
-        this.translatedText = res;
-      },
-      (err) => {
-        console.error('Translation error:', err);
-        alert('Translation failed.');
-      }
-    );
+  onLanguageChange(event: Event): void {
+    const selectedLang = (event.target as HTMLSelectElement).value;
+    this.translate.use(selectedLang);
   }
 
 }

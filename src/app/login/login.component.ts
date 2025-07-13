@@ -15,10 +15,16 @@ export class LoginComponent {
   newPassword = '';
   showForgot = false;
   private logger = Logger;
+  hidePassword: boolean = true; // 👈 toggle flag
+  errorMessage: string = '';
 
   constructor(private auth: AuthService, private router: Router) { }
 
   login() {
+    if (!this.email || !this.password) {
+      this.errorMessage = '⚠️ Please fill all the required fields before submitting.';
+      return;
+    }
     this.auth.login(this.email, this.password).subscribe({
       next: (data) => {
         if (data.role === 'admin') {
@@ -43,8 +49,12 @@ export class LoginComponent {
 
       },
       error: err => {
-        alert('Login failed. Please check your credentials.');
-        this.logger.error(err);
+        if (err?.error?.message) {
+          this.errorMessage = `🚫 ${err.error.message}`;
+        } else {
+          this.errorMessage = '🚫 Login failed due to server error.';
+        }
+        console.error('Login error:', err);
       }
     });
 
@@ -52,7 +62,11 @@ export class LoginComponent {
 
   }
 
-  
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
+
+
 
   toggleForgot() {
     this.showForgot = !this.showForgot;
@@ -64,14 +78,29 @@ export class LoginComponent {
       return;
     }
 
-    const success = this.auth.resetPassword(this.email, this.newPassword);
-    if (success) {
-      alert('Password updated. Please log in.');
-      this.showForgot = false;
-      this.password = '';
-    } else {
-      alert('Email not found.');
-    }
+    this.auth.resetPassword(this.email, this.newPassword).subscribe({
+      next: data => {
+        if (data) {
+          alert('Password updated. Please log in.');
+          this.showForgot = false;
+          this.password = '';
+          this.newPassword = '';
+        } else {
+          alert('Email not found.');
+        }
+
+      },
+      error: err => {
+        if (err?.error?.message) {
+          this.errorMessage = `🚫 ${err.error.message}`;
+        } else {
+          this.errorMessage = '🚫 Password updattion failed due to server error.';
+        }
+        console.error('Reset error:', err);
+      }
+    });
+
+
   }
 
 }

@@ -5,8 +5,9 @@ import { BlogService } from '../blog.service';
 import { HistoryService } from '../history.service';
 import { AuthService } from '../auth.service';
 import { Logger } from 'src/logger/logger';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-blog-list',
@@ -27,6 +28,7 @@ export class BlogListComponent {
   toDate: Date | null = null;
 
   allBlogs: Blog[] = [];
+  today: Date = new Date();
 
   constructor(
     private blogService: BlogService,
@@ -38,14 +40,33 @@ export class BlogListComponent {
   // create
 
   ngOnInit(): void {
+    window.addEventListener('storage', this.handleStorageChange.bind(this));
     this.getBlogs();
     this.role = this.authService.getUserRole();
     // this.onFilterTypeChange('title'); // Load all titles on init
   }
 
+  handleStorageChange(event: StorageEvent) {
+    const keysToWatch = ['userEmail', 'userRole', 'userEmailSubscription', 'userRoleSubscription'];
+
+    if (event.newValue === null && keysToWatch.includes(event.key!)) {
+      this.authService.logout();
+      
+    }
+  }
+
+
   getBlogs(): void {
     this.blogService.getBlogs().subscribe((blogs) => {
       this.filteredBlogs = blogs;
+      // Get all blog dates
+          const dates = blogs.map((h:any) => new Date(h.date));
+
+          // Sort dates to find min and max
+          const sortedDates = dates.sort((a, b) => a.getTime() - b.getTime());
+
+          this.fromDate = sortedDates[0]; // Earliest date
+          this.toDate = sortedDates[sortedDates.length - 1]; // Latest date
 
     });
   }
@@ -77,7 +98,7 @@ export class BlogListComponent {
     if (email) {
       this.historyService.addBlogInHistory(email, blog, false).subscribe({
         next: (blogHistory) => {
-          if(!blogHistory || !blogHistory.id) {
+          if (!blogHistory || !blogHistory.id) {
             this.logger.error('Blog not saved in history, received empty response:', blogHistory);
             alert('❌ Failed to add blog to history. Please try again later or May be blog already exists in history.');
             return;
