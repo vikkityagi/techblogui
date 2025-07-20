@@ -1,8 +1,8 @@
 export const environment = {
-  production: false,
+  production: true,
   get apiBaseUrl(): string {
     return this.production
-      ? 'https://your-production-domain.com/api' // Production URL
+      ? 'https://techblogapi-wdus.onrender.com/api' // Production URL
       : 'http://localhost:8080/api';             // Development URL
   }
 };

@@ -75,5 +75,10 @@
   <!-- 😔 If No Blog -->
   <div *ngIf="!selectedBlog || selectedBlog.length === 0" class="no-history-msg">
     😔 No blog saved in your history yet.
+    So please add a blog to your history.
+    <a [routerLink]="['/blog-list']" style="color: blue; cursor: pointer; text-decoration: underline;">
+      Go to blog list page
+    </a>
   </div>
+
 </div>
