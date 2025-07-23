@@ -1,26 +1,22 @@
-<!-- src/app/navbar/navbar.component.html -->
+<mat-toolbar color="primary" class="navbar" [class.expanded]="isMenuOpen">
+  <!-- Hamburger icon -->
+  <button mat-icon-button class="toggle-button" (click)="isMenuOpen = !isMenuOpen" aria-label="Toggle Menu">
+    <mat-icon>{{ isMenuOpen ? 'close' : 'menu' }}</mat-icon>
+  </button>
 
-<mat-toolbar color="primary">
-  <span>TechYatraWithVikki</span>
+  <!-- Title -->
+  <span class="app-title">TechYatraWithVikki</span>
   <span class="spacer"></span>
 
-  <!-- Show only for admin -->
-  <ng-container *ngIf="role === 'admin'">
-    <a mat-button routerLink="/add-blog">✍️ Blog Form</a>
-  </ng-container>
-
-  <ng-container >
-    <a mat-button *ngIf="email" >👤 {{ email }}</a>&nbsp;&nbsp;
-    <a mat-button routerLink="/home" routerLinkActive="active-link">🏠 Home</a>
-    <a mat-button routerLink="/about" routerLinkActive="active-link">About</a>
-    <!-- <a mat-button routerLink="/contact" routerLinkActive="active-link">Contact</a>
-    <a mat-button routerLink="/faq" routerLinkActive="active-link"> FAQ</a> -->
-    <a mat-button routerLink="/login" routerLinkActive="active-link">🔐 Login</a>
-    <a mat-button routerLink="/signup" routerLinkActive="active-link">Signup</a>
-    <a mat-button routerLink="/blog-list" routerLinkActive="active-link">Blog List</a>
-    <a mat-button routerLink="/history" routerLinkActive="active-link">My History</a>
-    
-    
-    <a mat-button href="#" routerLinkActive="active-link" (click)="logout()" *ngIf="email">Log-out</a>
-  </ng-container>
+  <!-- Menu links (same for desktop & mobile) -->
+  <div class="nav-links" [class.show]="isMenuOpen || isDesktop">
+    <span *ngIf="email" class="user-email">📧 {{ email }}</span>
+    <a mat-button routerLink="/" (click)="closeMenu()">🏠 Home</a>
+    <a mat-button routerLink="/about" (click)="closeMenu()">About</a>
+    <a mat-button routerLink="/login" (click)="closeMenu()">🔐 Login</a>
+    <a mat-button routerLink="/signup" (click)="closeMenu()">Signup</a>
+    <a mat-button routerLink="/blog-list" (click)="closeMenu()">Blog List</a>
+    <a mat-button routerLink="/history" (click)="closeMenu()">My History</a>
+    <a mat-button (click)="logout()">Log Out</a>
+  </div>
 </mat-toolbar>

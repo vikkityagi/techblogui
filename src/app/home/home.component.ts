@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { Blog } from '../model/blog.model';
 import { HistoryService } from '../history.service';
 import { AuthService } from '../auth.service';
 import { Logger } from 'src/logger/logger';
+import { CarouselComponent } from 'ngx-bootstrap/carousel';
 
 @Component({
   selector: 'app-home',
@@ -12,10 +13,17 @@ import { Logger } from 'src/logger/logger';
 })
 export class HomeComponent implements OnInit {
 
-  blog :any = null; // Initialize with null or an empty object
+  @ViewChild(CarouselComponent) carousel?: CarouselComponent;
+
+
+  // currentSlide = 0;
+
+  
+
+  blog: any = null; // Initialize with null or an empty object
   private logger = Logger; // Use console for logging, or replace with your Logger service
 
-  constructor(private blogService: BlogService,private historyService: HistoryService,private authService: AuthService) { }
+  constructor(private blogService: BlogService, private historyService: HistoryService, private authService: AuthService) { }
 
   ngOnInit(): void {
     // Any initialization logic can go here
@@ -41,7 +49,14 @@ export class HomeComponent implements OnInit {
 
   }
 
+  imageList = [
+    'assets/images/image1.jpg',
+    'assets/images/image2.jpg',
+    'assets/images/image3.jpg'
+  ];
   
+
+
 
   // You can add methods to handle user interactions or data fetching if needed
 

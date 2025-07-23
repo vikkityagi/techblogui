@@ -1,7 +1,7 @@
-<!-- 🧭 Navbar -->
+
 <app-navbar></app-navbar>
 
-<!-- 📦 Route Outlet -->
+
 <div style="margin: 1rem;">
   <router-outlet></router-outlet>
 </div>
@@ -35,7 +35,7 @@
     </a>
   </p>
 
-  <!-- ▶️ Show Payment Dialog Again -->
+  
   <p style="margin: 1.5rem 0;">
     <button mat-flat-button color="primary" (click)="openPaymentDialog()">
       💳 Show Payment Dialog Again
@@ -47,10 +47,11 @@
   </p>
 </footer>
 
-<!-- 🔄 Floating Support Button -->
+
 <button mat-fab color="accent"
   style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;"
   matTooltip="Support Me"
   (click)="openPaymentDialog()">
   💳
 </button>
+

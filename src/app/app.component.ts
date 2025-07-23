@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ScannerBankDialogComponent } from './scanner-bank-dialog/scanner-bank-dialog.component';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,16 @@ import { ScannerBankDialogComponent } from './scanner-bank-dialog/scanner-bank-d
 export class AppComponent implements OnInit {
   title = 'techyatrawithvikki';
   currentYear: number = new Date().getFullYear();
+  @ViewChild('drawer') drawer!: MatSidenav; // ✅ fix
 
-  constructor(private dialog: MatDialog){}
+  toggleDrawer() {
+    this.drawer.toggle(); // 👈 called from navbar event
+  }
 
-  ngOnInit():void{
-     this.dialog.open(ScannerBankDialogComponent, {
+  constructor(private dialog: MatDialog) { }
+
+  ngOnInit(): void {
+    this.dialog.open(ScannerBankDialogComponent, {
       width: '600px',
       disableClose: false // allow manual closing
     });

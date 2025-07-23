@@ -12,6 +12,7 @@ export class SignupComponent implements OnInit {
   email = '';
   password = '';
   role: 'user' | 'admin' = 'user';
+  loading = false;
 
   errorMessage: string = '';
   emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
@@ -39,18 +40,18 @@ export class SignupComponent implements OnInit {
       this.errorMessage = '⚠️ Please fill all the required fields before submitting.';
       return;
     }
-
     if (!this.emailPattern.test(this.email)) {
       this.errorMessage = '📧 Please enter a valid email address.';
       return;
     }
-
+    
     if (!this.passwordPattern.test(this.password)) {
       this.errorMessage =
-        '🔒 Password must be at least 6 characters long and include one capital letter, one number, and one special character.';
+      '🔒 Password must be at least 6 characters long and include one capital letter, one number, and one special character.';
       return;
     }
-
+    
+    this.loading = true;
 
     // You can add more validation here (e.g. email format, password strength)
 
@@ -59,7 +60,9 @@ export class SignupComponent implements OnInit {
     this.auth.register({ email: this.email, password: this.password, role: this.role }).subscribe({
       next: () => {
         alert('Signup successful! Please log in.');
+        this.loading = false;
         this.router.navigate(['/login']);
+
       },
       error: err => {
         
@@ -69,6 +72,7 @@ export class SignupComponent implements OnInit {
           this.errorMessage = '🚫 Signup failed due to server error.';
         }
         console.error('Signup error:', err);
+        this.loading = false;
       }
     });
   }

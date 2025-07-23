@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Logger } from 'src/logger/logger';
 import { Observable } from 'rxjs';
@@ -9,10 +9,29 @@ import { Observable } from 'rxjs';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  
 
   role: string | null = null;
   email: string | null = null;
   private logger = Logger;
+
+  isMenuOpen = false;
+  isDesktop = window.innerWidth > 768;
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isDesktop = window.innerWidth > 768;
+    if (this.isDesktop) {
+      this.isMenuOpen = false; // Reset menu state on large screen
+    }
+  }
+
+  closeMenu() {
+    if (!this.isDesktop) {
+      this.isMenuOpen = false;
+    }
+  }
+
 
   constructor(private auth: AuthService) { }
 
@@ -55,4 +74,5 @@ export class NavbarComponent {
     this.logger.info('Logging out user:', this.email);
     this.auth.logout();
   }
-}
+
+  }

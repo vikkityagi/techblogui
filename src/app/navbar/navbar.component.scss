@@ -1,34 +1,63 @@
+/* Default toolbar layout */
+.navbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  transition: all 0.3s ease;
+  padding: 10px;
+  overflow: hidden;
+}
+
+/* When hamburger is clicked, toolbar expands */
+.navbar.expanded {
+  height: auto;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Title & spacer */
+.app-title {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
- 
-nav {
+
+.toggle-button {
+  display: none;
+}
+
+/* Shared menu style */
+.nav-links {
   display: flex;
-  gap: 2rem;
-  padding: 1rem;
-  background: #3f51b5; /* example */
+  gap: 10px;
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  position: relative;
-  padding-bottom: 4px;
-  transition: color 0.3s ease;
-}
+/* Responsive style */
+@media (max-width: 768px) {
+  .toggle-button {
+    display: inline-flex;
+  }
 
-nav a:hover {
-  color: #ffeb3b;
-}
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
 
-.active-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  height: 3px;
-  width: 100%;
-  background-color: #ffeb3b;
-  border-radius: 2px;
+  .nav-links.show {
+    display: flex;
+  }
+
+  .navbar {
+    flex-direction: row;
+  }
+
+  .navbar.expanded {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

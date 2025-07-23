@@ -51,24 +51,33 @@ export class BlogListComponent {
 
     if (event.newValue === null && keysToWatch.includes(event.key!)) {
       this.authService.logout();
-      
+
     }
   }
 
 
   getBlogs(): void {
-    this.blogService.getBlogs().subscribe((blogs) => {
-      this.filteredBlogs = blogs;
-      // Get all blog dates
-          const dates = blogs.map((h:any) => new Date(h.date));
+    this.blogService.getBlogs().subscribe({
+      next: blogs => {
+        if (blogs.length > 0) {
+          this.filteredBlogs = blogs;
+          // Get all blog dates
+          const dates = blogs.map((h: any) => new Date(h.date));
 
           // Sort dates to find min and max
           const sortedDates = dates.sort((a, b) => a.getTime() - b.getTime());
 
           this.fromDate = sortedDates[0]; // Earliest date
           this.toDate = sortedDates[sortedDates.length - 1]; // Latest date
+        }
 
-    });
+
+      }, error: err => {
+        alert("No blog found");
+      }
+    })
+
+    // });
   }
 
   // filterBlogByTitle(): void {
@@ -106,6 +115,7 @@ export class BlogListComponent {
           this.logger.info('Blog saved in history:', blogHistory);
           this.logger.info('Blog added to history:', blogHistory.blog.title);
           alert('✅ Blog added to your history!');
+          this.router.navigate(['/history']);
         },
         error: (err) => {
           this.logger.error('Error adding blog to history:', err);
@@ -220,7 +230,8 @@ export class BlogListComponent {
   //   rzp.open();
   // }
 
-  showAll(): void {
+  showAll(event: Event): void {
+    event.preventDefault();
     this.logger.info('Showing all blogs');
     this.getBlogs(); // Fetch all blogs again
   }

@@ -25,10 +25,15 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AboutComponent } from './about/about.component';
 import { BlogDialogComponent } from './blog-dialog/blog-dialog.component'; // Import MatTooltipModule for tooltips
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { ScannerBankDialogComponent } from './scanner-bank-dialog/scanner-bank-dialog.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {MatListModule} from '@angular/material/list';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -48,6 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ScannerBankDialogComponent
   ],
   imports: [
+    CarouselModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -65,6 +71,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatNativeDateModule, // Import MatNativeDateModule for native date support
     MatTooltipModule,
     MatDialogModule,
+    MatSidenavModule,
+    MatProgressSpinnerModule,
+    
+    MatListModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {

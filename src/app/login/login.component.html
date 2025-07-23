@@ -2,6 +2,13 @@
   {{ errorMessage }}
 </div>
 
+<mat-progress-spinner 
+  *ngIf="loading"
+  mode="indeterminate"
+  diameter="40"
+  color="primary"
+  style="display: block; margin: 0 auto 1rem;">
+</mat-progress-spinner>
 
 <mat-card class="login-card">
   <mat-card-title class="login-title">🔐 Login to Your Account</mat-card-title>
@@ -22,7 +29,7 @@
       </button>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="login-btn" (click)="login()">
+    <button mat-raised-button color="primary" class="login-btn" (click)="login()" [disabled]="loading">
       🔓 Login
     </button>
 
@@ -46,7 +53,7 @@
       </button>
       </mat-form-field>
 
-      <button mat-stroked-button color="accent" (click)="resetPassword()">
+      <button mat-stroked-button color="accent" (click)="resetPassword()" [disabled]="loading">
         🔁 Reset Password
       </button>
     </div>

@@ -17,6 +17,8 @@ export class LoginComponent {
   private logger = Logger;
   hidePassword: boolean = true; // 👈 toggle flag
   errorMessage: string = '';
+  loading = false;
+
 
   constructor(private auth: AuthService, private router: Router) { }
 
@@ -25,6 +27,7 @@ export class LoginComponent {
       this.errorMessage = '⚠️ Please fill all the required fields before submitting.';
       return;
     }
+    this.loading = true;
     this.auth.login(this.email, this.password).subscribe({
       next: (data) => {
         if (data.role === 'admin') {
@@ -45,7 +48,7 @@ export class LoginComponent {
         localStorage.setItem('userEmailSubscription', data.email);
         localStorage.setItem('userRoleSubscription', data.role);
 
-
+        this.loading = false;
 
       },
       error: err => {
@@ -55,6 +58,7 @@ export class LoginComponent {
           this.errorMessage = '🚫 Login failed due to server error.';
         }
         console.error('Login error:', err);
+        this.loading = false;
       }
     });
 
@@ -78,6 +82,8 @@ export class LoginComponent {
       return;
     }
 
+    this.loading = true;
+
     this.auth.resetPassword(this.email, this.newPassword).subscribe({
       next: data => {
         if (data) {
@@ -88,7 +94,7 @@ export class LoginComponent {
         } else {
           alert('Email not found.');
         }
-
+        this.loading = false;
       },
       error: err => {
         if (err?.error?.message) {
@@ -97,6 +103,7 @@ export class LoginComponent {
           this.errorMessage = '🚫 Password updattion failed due to server error.';
         }
         console.error('Reset error:', err);
+        this.loading = false;
       }
     });
 

@@ -1,3 +1,31 @@
+<carousel [itemsPerSlide]="1" [interval]="2000" [noPause]="true" [isAnimated]="true" class="custom-carousel"
+  [showIndicators]="false" #carousel>
+  <slide *ngFor="let img of imageList; let i = index">
+    <div class="carousel-slide-container">
+      <img [src]="img" class="carousel-image" />
+    </div>
+  </slide>
+
+  <a class="carousel-control-prev-custom" role="button" (click)="carousel.previousSlide()">
+    <span class="carousel-control-icon">&#10094;</span> <!-- Unicode left arrow -->
+  </a>
+
+  <a class="carousel-control-next-custom" role="button" (click)="carousel.nextSlide()">
+    <span class="carousel-control-icon">&#10095;</span> <!-- Unicode right arrow -->
+  </a>
+
+  <!-- Custom Indicators -->
+  <div class="carousel-indicators-custom">
+    <span *ngFor="let img of imageList; let i = index" [class.active]="carousel?.activeSlide === i"
+      class="indicator-dot"></span>
+  </div>
+  <div class="signup-button-container">
+    <button class="signup-button" routerLink="/blog-list">Read More Blog</button>
+  </div>
+</carousel>
+
+
+
 <mat-card class="latest-blog-card">
   <div class="blog-date-container">
     <span class="blog-date" *ngIf="blog">🗓️ {{ blog.date | date:'mediumDate' }}</span>

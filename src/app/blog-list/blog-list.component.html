@@ -54,8 +54,15 @@
     </mat-form-field>
   </div>
 </div>
-<a href="#" (click)="showAll()" *ngIf="filterType === 'date' || filterType === 'title'">
-  Show All Blogs</a>
+<a href="#" 
+   (click)="showAll($event)" 
+   *ngIf="filterType === 'date' || filterType === 'title'" 
+   class="show-all-btn">
+   📝 Show All Blogs
+</a>
+
+
+
 
 
 
@@ -93,8 +100,14 @@
   </mat-card>
 
   <!-- 🔇 No Blog Found -->
-  <div *ngIf="filteredBlogs.length === 0" style="color: gray;">
-    No blog found for today.
+  <div *ngIf="filteredBlogs.length === 0"
+    style="color: #888; font-style: italic; font-size: 1.1rem; padding: 1rem; background: #fef4f4; border: 1px solid #ffcccc; border-radius: 8px;">
+    ⚠️ No blogs found for the selected <b>{{ filterType }}</b>
+    <span *ngIf="filterType === 'title' && searchTitle"> with title "<b>{{ searchTitle }}</b>"</span>
+    <span *ngIf="filterType === 'date' && fromDate && toDate"> from <b>{{ fromDate | date:'dd MMM yyyy' }}</b> to <b>{{
+        toDate | date:'dd MMM yyyy' }}</b></span>.
+    <br>
+    👉 Try selecting a different filter or click <a href="#" (click)="showAll($event)">here</a> to show all blogs.
   </div>
 
 

@@ -2,7 +2,9 @@
   {{ errorMessage }}
 </div>
 
-
+<mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="40" color="primary"
+  style="display: block; margin: 0 auto 1rem;">
+</mat-progress-spinner>
 <mat-card class="signup-card">
   <mat-card-title class="signup-title">📝 Create Your Account</mat-card-title>
 
@@ -30,7 +32,7 @@
       </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="signup-btn" (click)="signup()">
+    <button mat-raised-button color="primary" class="signup-btn" (click)="signup()" [disabled]="loading">
       🚀 Register
     </button>
 
