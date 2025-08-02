@@ -1,0 +1,48 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Add New Category</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Category Name</mat-label>
+                <input matInput formControlName="name" required>
+                <mat-error *ngIf="categoryForm.get('name').hasError('required')">Category name is required.</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Description</mat-label>
+                <textarea matInput formControlName="description" rows="3" required></textarea>
+                <mat-error *ngIf="categoryForm.get('description').hasError('required')">Description is
+                    required.</mat-error>
+            </mat-form-field>
+
+            <fieldset class="form-group">
+                <legend id="encryptionMethodLabel" class="d-block mb-1 small-legend"><strong>Add
+                        Category:</strong></legend>
+                <input type="file" class="form-control"
+                    [class.is-invalid]="categoryForm.get('imageUrl')?.invalid && categoryForm.get('imageUrl')?.touched"
+                    accept=".jpg,.jpeg,.png" (change)="onFileSelected($event)"
+                    [class.is-invalid]="imageInvalid && categoryForm.get('imageUrl')?.touched">
+                <input type="hidden" formControlName="imageUrl" />
+
+                <div *ngIf="imageInvalid && categoryForm.get('imageUrl')?.touched" class="text-danger mt-1">
+                    Image is required.
+                </div>
+                <div *ngIf="categoryForm.get('imageUrl')?.hasError('maxSize') && categoryForm.get('imageUrl')?.touched"
+                    class="text-danger mt-1">
+                    Maximum allowed image size is 10MB.
+                </div>
+
+            </fieldset>
+            <button mat-raised-button color="primary" type="submit">Add
+                Category</button>
+            <button mat-button type="button" (click)="resetForm()">Reset</button>
+            <div *ngIf="successMessage" class="success alert alert-success mt-2">
+                {{ successMessage }}
+            </div>
+            <div *ngIf="errorMessage" class="error alert alert-danger mt-2">
+                {{ errorMessage }}
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

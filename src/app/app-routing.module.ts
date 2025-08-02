@@ -8,6 +8,7 @@ import { SignupComponent } from './signup/signup.component';
 import { HomeComponent } from './home/home.component';
 import { authGuard } from './auth.guard';
 import { AboutComponent } from './about/about.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,7 +19,9 @@ const routes: Routes = [
   { path: 'blog-list', component: BlogListComponent, canActivate: [authGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
-  
+  { path: 'add-category', component: AddCategoryComponent, canActivate: [authGuard] },
+  { path: 'blog-list/:id/:title', component: BlogListComponent, canActivate: [authGuard] } // Assuming you have a BlogDetailComponent for viewing individual blogs
+
 ];
 
 @NgModule({

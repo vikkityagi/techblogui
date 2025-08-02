@@ -7,6 +7,13 @@
 
 <!-- 🔍 Unified Search Filters -->
 <div class="filter-bar">
+
+  <mat-form-field appreance="outline" class="filter-field">
+    <mat-label>Please Select category</mat-label>
+    <mat-select [(ngModel)]="category" (selectionChange)="onSelectCategory($event.value)">
+      <mat-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <!-- Title Search -->
   <mat-form-field appearance="outline" class="filter-field">
     <mat-label>Search Blog Title</mat-label>

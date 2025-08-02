@@ -11,6 +11,8 @@
   <!-- Menu links (same for desktop & mobile) -->
   <div class="nav-links" [class.show]="isMenuOpen || isDesktop">
     <span *ngIf="email" class="user-email">📧 {{ email }}</span>
+    <a mat-button *ngIf="role === 'admin'" routerLink="/add-category" (click)="closeMenu()">Add Category</a>
+    <a mat-button *ngIf="role === 'admin'" routerLink="/add-blog" (click)="closeMenu()">Add Blog</a>
     <a mat-button routerLink="/" (click)="closeMenu()">🏠 Home</a>
     <a mat-button routerLink="/about" (click)="closeMenu()">About</a>
     <a mat-button routerLink="/login" (click)="closeMenu()">🔐 Login</a>

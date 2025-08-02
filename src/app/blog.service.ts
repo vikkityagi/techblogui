@@ -15,9 +15,14 @@ export class BlogService {
 
   constructor(private http: HttpClient) { }
 
-  getBlogs(fromDate?: string, toDate?: string): Observable<Blog[]> {
-    if(fromDate && toDate) {
+  getBlogs(fromDate?: string, toDate?: string,category_id?: string): Observable<Blog[]> {
+    console.log('Fetching blogs with parameters:', { fromDate, toDate, category_id });
+    if(fromDate && toDate && !category_id) {
       return this.http.get<Blog[]>(`${this.apiUrl}/blogs?fromDate=${fromDate}&toDate=${toDate}`);
+    }else if(fromDate && toDate && category_id) {
+      return this.http.get<Blog[]>(`${this.apiUrl}/blogs?fromDate=${fromDate}&toDate=${toDate}&category_id=${category_id}`);
+    }else if(!fromDate && !toDate && category_id) {
+      return this.http.get<Blog[]>(`${this.apiUrl}/blogs?category_id=${category_id}`);
     }
     return this.http.get<Blog[]>(`${this.apiUrl}/blogs`);
   }

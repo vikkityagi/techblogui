@@ -50,109 +50,27 @@
   color: #444;
 }
 
-.carousel-slide-container {
-  position: relative;
-  text-align: center;
-}
 
-.carousel-image {
-  width: 100%;
-  height: 400px;
+.carousel-img {
+  height: 500px;
   object-fit: cover;
-  border-radius: 8px;
+  filter: brightness(75%);
+  transition: filter 0.5s ease;
 }
 
-
-
-/* Indicator dots */
-.carousel-indicators-custom {
-  position: fixed;
-  bottom: 281px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 8px;
-  z-index: 10;
+.carousel-img:hover {
+  filter: brightness(85%);
 }
 
-.indicator-dot {
-  width: 12px;
-  height: 12px;
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 50%;
-  cursor: pointer;
+.carousel-caption {
+  bottom: 20px;
 }
 
-.indicator-dot.active {
-  background: white;
-}
-
-
-a:link,
-a:visited {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* Custom prev/next buttons over image */
-.carousel-control-prev-custom,
-.carousel-control-next-custom {
+.carousel-read-more {
   position: absolute;
-  top: -1%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  z-index: 11;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin: 445px;
-}
-
-.carousel-control-prev-custom {
-  left: 15px;
-}
-
-.carousel-control-next-custom {
-  right: 15px;
-}
-
-.carousel-control-icon {
-  color: white;
-  font-size: 24px;
-  line-height: 1;
-}
-
-.signup-button-container {
-  position: fixed;
-  bottom: 458px;
+  bottom: 321px;
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
   z-index: 10;
 }
-
-.signup-button {
-  background-color: #ff004c;
-  color: white;
-  padding: 11px 22px;
-  border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.signup-button:hover {
-  background-color: #00b336;
-}
-
-
-
-
-
-
 

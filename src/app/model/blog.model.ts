@@ -7,4 +7,5 @@ export interface Blog {
   userEmail: string; // Email of the user who created the blog
   date?: string; // Date in YYYY-MM-DD format
   isPaid?: boolean; // Optional field to indicate if the blog is paid
+  category?: string; // Optional field for category ID
 }

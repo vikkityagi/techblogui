@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BlogDialogComponent } from '../blog-dialog/blog-dialog.component';
 import { formatDate } from '@angular/common';
 import { filter, take } from 'rxjs';
+import { CategoryService } from '../category.service';
 
 @Component({
   selector: 'app-user-history',
@@ -26,6 +27,8 @@ export class UserHistoryComponent implements OnInit {
   // For search
   searchId: any = '';
   titles: { id: number | string; title: string }[] = [];
+  categoryList: any[] = [];
+  category: string = '';
 
   selectedBlog: any;
 
@@ -35,7 +38,9 @@ export class UserHistoryComponent implements OnInit {
   today: Date = new Date();
 
 
-  constructor(private auth: AuthService, private historyService: HistoryService, private router: Router, private cdr: ChangeDetectorRef, private dialog: MatDialog) { }
+  constructor(private auth: AuthService, private historyService: HistoryService, private router: Router, private cdr: ChangeDetectorRef, private dialog: MatDialog,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
     window.addEventListener('storage', this.handleStorageChange.bind(this));
@@ -46,7 +51,7 @@ export class UserHistoryComponent implements OnInit {
         next: (history) => {
           this.history = history;
           // Get all blog dates
-          const dates = history.map((h:any) => new Date(h.createdAt));
+          const dates = history.map((h: any) => new Date(h.createdAt));
 
           // Sort dates to find min and max
           const sortedDates = dates.sort((a, b) => a.getTime() - b.getTime());
@@ -76,6 +81,46 @@ export class UserHistoryComponent implements OnInit {
       alert('Please login to view your history.');
       this.router.navigate(['/login']);
     }
+
+    this.loadDropdown();
+  }
+
+  loadDropdown() {
+    this.getAllCategories();
+  }
+
+  getBlogsByCategoryId(categoryId: string): void {
+    if (this.email) {
+      this.historyService.getBlogsByCategory(this.email, categoryId).subscribe({
+        next: (blogs) => {
+          this.selectedBlog = blogs;
+          this.titles = blogs.map((h: any) => ({
+            id: h.blog.id!,
+            title: h.blog.title
+          }));
+          this.logger.info('Blogs fetched by category:', blogs);
+        },
+        error: (err) => {
+          this.logger.error('Error fetching blogs by category:', err);
+          alert('Error fetching blogs by category. Please try again later.');
+        }
+      });
+    } else {
+      alert('Please login first!');
+      this.router.navigate(['/login']);
+    }
+  }
+
+  getAllCategories(): void {
+    this.categoryService.getAllCategories().subscribe({
+      next: (categories) => {
+        this.categoryList = categories;
+        this.logger.info('Categories fetched:', categories);
+      },
+      error: (err) => {
+        this.logger.error('Error fetching categories:', err);
+      }
+    });
   }
 
   handleStorageChange(event: StorageEvent) {
@@ -94,6 +139,12 @@ export class UserHistoryComponent implements OnInit {
     });
   }
 
+  onSelectCategory(id: string): void {
+    this.getBlogsByCategoryId(id);
+    this.fromDate = null;
+    this.toDate = null;
+  }
+
   filterBlogByDate() {
     this.email = this.auth.getUserEmail();
     if (this.fromDate && this.toDate && this.email) {
@@ -101,25 +152,39 @@ export class UserHistoryComponent implements OnInit {
       const from = this.formatDate(this.fromDate);
       const to = this.formatDate(this.toDate);
       this.logger.info('Filtering blogs from:', from, 'to:', to);
-      this.historyService.getHistory(this.email, from, to).subscribe({
-        next: (blogs) => {
-          this.selectedBlog = blogs;
-          this.titles = blogs.map((h) => ({
-            id: h.blog.id!,
-            title: h.blog.title
-          }));
-          this.logger.info('Filtered blogs:', this.selectedBlog);
-        }, error: (err) => {
-          this.logger.error('Error fetching blogs by date:', err);
-          this.fromDate = null;
-          this.toDate = null;
-          alert('Error fetching blogs by date. Please try again later.');
-        }
-      })
-      // this.filteredBlogs = this.allBlogs.filter(blog => {
-      //   const blogDate = new Date(blog.date).getTime();
-      //   return blogDate >= from && blogDate <= to;
-      // });
+      if (this.category) {
+        this.historyService.getBlogsByCategoryAndDates(this.email, this.category, from, to).subscribe({
+          next: (blogs) => {
+            this.selectedBlog = blogs;
+            this.titles = blogs.map((h) => ({
+              id: h.blog.id!,
+              title: h.blog.title
+            }));
+            this.logger.info('Filtered blogs:', this.selectedBlog);
+          }, error: (err) => {
+            this.logger.error('Error fetching blogs by date and category:', err);
+            alert('Error fetching blogs by date and category. Please try again later.');
+          }
+        });
+      } else {
+        this.historyService.getHistory(this.email, from, to).subscribe({
+          next: (blogs) => {
+            this.selectedBlog = blogs;
+            this.titles = blogs.map((h) => ({
+              id: h.blog.id!,
+              title: h.blog.title
+            }));
+            this.logger.info('Filtered blogs:', this.selectedBlog);
+          }, error: (err) => {
+            this.logger.error('Error fetching blogs by date:', err);
+            this.fromDate = null;
+            this.toDate = null;
+            alert('Error fetching blogs by date. Please try again later.');
+          }
+        })
+      }
+
+
     } else {
       alert('Please select both From and To dates.');
 

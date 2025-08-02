@@ -5,6 +5,7 @@ import { HistoryService } from '../history.service';
 import { AuthService } from '../auth.service';
 import { Logger } from 'src/logger/logger';
 import { CarouselComponent } from 'ngx-bootstrap/carousel';
+import { CategoryService } from '../category.service';
 
 @Component({
   selector: 'app-home',
@@ -18,12 +19,15 @@ export class HomeComponent implements OnInit {
 
   // currentSlide = 0;
 
-  
+
 
   blog: any = null; // Initialize with null or an empty object
   private logger = Logger; // Use console for logging, or replace with your Logger service
+  categoryList: any[] = []; // Initialize with an empty array
 
-  constructor(private blogService: BlogService, private historyService: HistoryService, private authService: AuthService) { }
+  constructor(private blogService: BlogService, private historyService: HistoryService, private authService: AuthService,
+    private categoryService: CategoryService
+  ) { }
 
   ngOnInit(): void {
     // Any initialization logic can go here
@@ -47,14 +51,45 @@ export class HomeComponent implements OnInit {
       this.authService.setUserRoleSubscription(localStorage.getItem('userRoleSubscription')!);
     }
 
+    this.getAllCategories(); // Fetch categories on component initialization
+
+  }
+
+
+
+  getAllCategories() {
+    this.categoryService.getAllCategories().subscribe({
+      next: (categories) => {
+        this.logger.log('Fetched categories:', categories);
+        this.categoryList = categories; // Store fetched categories in the component
+      },
+      error: (err) => {
+        this.logger.error('Error fetching categories:', err);
+      }
+    });
   }
 
   imageList = [
-    'assets/images/image1.jpg',
-    'assets/images/image2.jpg',
-    'assets/images/image3.jpg'
+    {
+      src: 'assets/images/image1.jpg',
+      title: 'Tech Trends 2025',
+      description: 'Explore the top 10 upcoming tech trends you can’t miss.',
+      link: '/blog/tech-trends-2025'
+    },
+    {
+      src: 'assets/images/image2.jpg',
+      title: 'AI in Daily Life',
+      description: 'How artificial intelligence is shaping our future.',
+      link: '/blog/ai-daily-life'
+    },
+    {
+      src: 'assets/images/image3.jpg',
+      title: 'Secure Web Development',
+      description: 'Learn best practices to secure your web apps.',
+      link: '/blog/web-security'
+    }
   ];
-  
+
 
 
 

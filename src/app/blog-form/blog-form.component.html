@@ -28,6 +28,13 @@
     <textarea matInput rows="5" [(ngModel)]="content" placeholder="Enter blog content"></textarea>
   </mat-form-field>
 
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Category</mat-label>
+    <mat-select [(ngModel)]="category">
+      <mat-option *ngFor="let cat of categoryList" [value]="cat.id">{{ cat.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <div style="margin-top: 1rem;">
     <button mat-raised-button color="primary" (click)="addBlog()">➕ Add Blog</button>
     <button mat-raised-button color="warn" style="margin-left: 1rem;" (click)="deleteBlog()">🗑️ Delete by Title</button>

@@ -1,30 +1,29 @@
-<carousel [itemsPerSlide]="1" [interval]="2000" [noPause]="true" [isAnimated]="true" class="custom-carousel"
-  [showIndicators]="false" #carousel>
-  <slide *ngFor="let img of imageList; let i = index">
-    <div class="carousel-slide-container">
-      <img [src]="img" class="carousel-image" />
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+  <div class="carousel-inner">
+    <div class="carousel-item" *ngFor="let img of categoryList; let i = index" [class.active]="i === 0">
+      <img [src]="img.imageUrl" class="d-block w-100 carousel-img" alt="Slide {{ i + 1 }}" />
+      <div class="carousel-caption d-md-block bg-dark bg-opacity-50 rounded p-3">
+        <h5>{{ img.name }}</h5>
+        <p>{{ img.description }}</p>
+        <a [routerLink]="['/blog-list', img.id, img.name]" class="btn btn-outline-light btn-sm">Read More</a>
+      </div>
     </div>
-  </slide>
-
-  <a class="carousel-control-prev-custom" role="button" (click)="carousel.previousSlide()">
-    <span class="carousel-control-icon">&#10094;</span> <!-- Unicode left arrow -->
-  </a>
-
-  <a class="carousel-control-next-custom" role="button" (click)="carousel.nextSlide()">
-    <span class="carousel-control-icon">&#10095;</span> <!-- Unicode right arrow -->
-  </a>
-
-  <!-- Custom Indicators -->
-  <div class="carousel-indicators-custom">
-    <span *ngFor="let img of imageList; let i = index" [class.active]="carousel?.activeSlide === i"
-      class="indicator-dot"></span>
+    <div class="carousel-read-more">
+      <a routerLink="/login" class="btn btn-light btn-lg shadow">Read More Blog</a>
+    </div>
   </div>
-  <div class="signup-button-container">
-    <button class="signup-button" routerLink="/blog-list">Read More Blog</button>
-  </div>
-</carousel>
+  <!-- </div> -->
 
 
+  <!-- Carousel controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+<br>
 
 <mat-card class="latest-blog-card">
   <div class="blog-date-container">

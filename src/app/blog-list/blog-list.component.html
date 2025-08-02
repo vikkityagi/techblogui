@@ -7,26 +7,22 @@
 <div style="display: flex;flex-wrap: wrap;gap: 1rem;margin-bottom: 1rem;flex-direction: row-reverse;">
   <mat-form-field appearance="fill" style="min-width: 200px;">
     <mat-label>Filter By</mat-label>
-    <mat-select [(ngModel)]="filterType" (selectionChange)="onFilterTypeChange($event.value)">
+    <mat-select [(ngModel)]="filterType">
       <mat-option value="title">Title</mat-option>
       <mat-option value="date">Date</mat-option>
     </mat-select>
   </mat-form-field>
 
+  <mat-form-field appearance="fill">
+    <mat-label>Please Select Category</mat-label>
+    <mat-select [(ngModel)]="category" (selectionChange)="onSelectCategory($event.value)">
+      <mat-option *ngFor="let category of categoryList" [value]="category.id">{{ category.name }}</mat-option>
+      </mat-select>
+  </mat-form-field>
 
 
-  <!-- 🔍 Title Search -->
-  <!-- <mat-form-field appearance="fill" style="min-width: 250px; max-width: 300px;" *ngIf="filterType === 'title'">
-    <mat-label>Search Blog by Title</mat-label>
-    <input type="text" matInput [matAutocomplete]="auto" [(ngModel)]="searchTitle" (ngModelChange)="filterBlogByTitle()"
-      placeholder="Type blog title..." />
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let title of allTitles" [value]="title">
-        {{ title }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field> -->
 
+  
   <mat-form-field appearance="fill" style="min-width: 250px; max-width: 300px;" *ngIf="filterType === 'title'">
     <mat-label>Search Blog by Title</mat-label>
     <mat-select (selectionChange)="filterBlogByTitle($event.value)">

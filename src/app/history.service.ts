@@ -55,6 +55,14 @@ export class HistoryService {
     return history.find(h => h.blog.title === title) || null;
   }
 
+  getBlogsByCategory(email: string, categoryId: string): Observable<BlogHistory[]> {
+    return this.http.get<BlogHistory[]>(`${this.url}/history/blogs?email=${email}&categoryId=${categoryId}`);
+  }
+
+  getBlogsByCategoryAndDates(email: string, categoryId: string, fromDate: string, toDate: string): Observable<BlogHistory[]> {
+    return this.http.get<BlogHistory[]>(`${this.url}/history/by-category?email=${email}&categoryId=${categoryId}&fromDate=${fromDate}&toDate=${toDate}`);
+  }
+
   
   
 

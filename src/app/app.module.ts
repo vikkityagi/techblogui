@@ -33,6 +33,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {MatListModule} from '@angular/material/list';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AddCategoryComponent } from './add-category/add-category.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -50,7 +51,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     HomeComponent,
     AboutComponent,
     BlogDialogComponent,
-    ScannerBankDialogComponent
+    ScannerBankDialogComponent,
+    AddCategoryComponent
   ],
   imports: [
     CarouselModule.forRoot(),
