@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { User } from './model/user.model';
 import { environment } from 'src/environment/environment';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Logger } from 'src/logger/logger';
 import { Router } from '@angular/router';
 
@@ -24,19 +24,23 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  register(user: User): Observable<User> {
+  register(user: User): Observable<HttpResponse<User>> {
     const url = `${this.url}/users/signup`; // Adjust path to match your backend API
     this.logger.info('Registering user:', user);
     this.logger.info('API URL:', url);
-    return this.http.post<User>(url, user);
+    return this.http.post<User>(url, user, {
+      observe: 'response'
+    });
   }
 
-  login(email: string, password: string): Observable<User> {
+  login(email: string, password: string): Observable<HttpResponse<User>> {
 
     const url = `${this.url}/users/login`; // Adjust path to match your backend API
     this.logger.info('Logging in user:', { email, password });
     this.logger.info('API URL:', url);
-    return this.http.post<User>(url, { email, password });
+    return this.http.post<User>(url, { email, password }, {
+      observe: 'response'
+    });
   }
 
   getUserEmail(): string | null {
@@ -81,7 +85,7 @@ export class AuthService {
   // }
 
   resetPassword(email: string, newPassword: string): Observable<User> {
-    return this.http.post<User>(`${this.url}/users/reset`,{email: email,password: newPassword});
+    return this.http.post<User>(`${this.url}/users/reset`, { email: email, password: newPassword });
   }
 
   logout(): void {
@@ -118,7 +122,7 @@ export class AuthService {
 
 
     // Optional: redirect to login (if using router here)
-    
+
   }
 
 }

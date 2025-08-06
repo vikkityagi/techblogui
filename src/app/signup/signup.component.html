@@ -1,43 +1,59 @@
-<div *ngIf="errorMessage" style="color: red; margin-bottom: 0.75rem;">
-  {{ errorMessage }}
-</div>
+<div style="
+  background-image: url('assets/images/signup2.webp');
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+">
+  <mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="40" color="primary"
+    style="display: block; margin: 0 auto 1rem;">
+  </mat-progress-spinner>
+  <mat-card class="signup-card">
+    <div *ngIf="errorMessages?.length" style="margin-bottom: 0.75rem;">
+      <ul style="color: red; padding-left: 1rem; margin: 0;">
+        <li *ngFor="let msg of errorMessages">
+          {{ msg }}
+        </li>
+      </ul>
+    </div>
 
-<mat-progress-spinner *ngIf="loading" mode="indeterminate" diameter="40" color="primary"
-  style="display: block; margin: 0 auto 1rem;">
-</mat-progress-spinner>
-<mat-card class="signup-card">
-  <mat-card-title class="signup-title">📝 Create Your Account</mat-card-title>
 
-  <mat-card-content>
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Email</mat-label>
-      <input matInput [(ngModel)]="email" type="email" required />
-    </mat-form-field>
+    <mat-card-title class="signup-title">📝 Create Your Account</mat-card-title>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Password</mat-label>
-      <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required />
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="email" type="email" required />
+      </mat-form-field>
 
-      <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
-        [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
-        <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required />
+
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+          [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Select Role</mat-label>
+        <mat-select [(ngModel)]="role" required>
+          <mat-option value="user">User</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="signup-btn" (click)="signup()" [disabled]="loading">
+        🚀 Register
       </button>
-    </mat-form-field>
 
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Select Role</mat-label>
-      <mat-select [(ngModel)]="role" required>
-        <mat-option value="user">User</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" class="signup-btn" (click)="signup()" [disabled]="loading">
-      🚀 Register
-    </button>
-
-    <p class="link-text">
-      Already have an account? <a routerLink="/login">Login</a>
-    </p>
-  </mat-card-content>
-</mat-card>
+      <p class="link-text">
+        Already have an account? <a routerLink="/login">Login</a>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

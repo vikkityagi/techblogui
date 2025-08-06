@@ -69,6 +69,7 @@ export class NavbarComponent {
 
 
   logout(): void {
+    // if(!this.email) {
     let isconfirm = confirm("Are you sure you want to logout?");
     if (!isconfirm) return;
     this.logger.info('Logging out user:', this.email);

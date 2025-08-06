@@ -19,6 +19,6 @@
     <a mat-button routerLink="/signup" (click)="closeMenu()">Signup</a>
     <a mat-button routerLink="/blog-list" (click)="closeMenu()">Blog List</a>
     <a mat-button routerLink="/history" (click)="closeMenu()">My History</a>
-    <a mat-button (click)="logout()">Log Out</a>
+    <a mat-button (click)="logout()" *ngIf="email">Log Out</a>
   </div>
 </mat-toolbar>
