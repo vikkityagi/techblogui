@@ -30,10 +30,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { ScannerBankDialogComponent } from './scanner-bank-dialog/scanner-bank-dialog.component';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AddCategoryComponent } from './add-category/add-category.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule } from '@angular/material/radio';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -75,7 +77,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDialogModule,
     MatSidenavModule,
     MatProgressSpinnerModule,
-    
+    MatMenuModule,
+    MatRadioModule,
+
     MatListModule,
     TranslateModule.forRoot({
       defaultLanguage: 'en',

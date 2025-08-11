@@ -10,7 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
 
   let isLoggedIn = false;
-  if (localStorage.getItem('userEmail') && localStorage.getItem('userRole') && localStorage.getItem('userEmailSubscription') && localStorage.getItem('userRoleSubscription')) {
+  if (localStorage.getItem('userEmail') != null && localStorage.getItem('userRole') != null && localStorage.getItem('userEmailSubscription') != null && localStorage.getItem('userRoleSubscription')!= null) {
     isLoggedIn = localStorage.getItem('userEmail') !== null; // or any auth check
     authService.setUserEmail(localStorage.getItem('userEmail')!);
     const role = localStorage.getItem('userRole');

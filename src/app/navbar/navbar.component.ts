@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  
+
 
   role: string | null = null;
   email: string | null = null;
@@ -17,6 +17,9 @@ export class NavbarComponent {
 
   isMenuOpen = false;
   isDesktop = window.innerWidth > 768;
+
+  // dropdown toggle
+  dropdownOpen = false;
 
   @HostListener('window:resize')
   onResize() {
@@ -32,6 +35,18 @@ export class NavbarComponent {
     }
   }
 
+  // test() {
+  //   this.logger.info('Test function called');
+  //   this.auth.getJsonWebToken().subscribe({
+  //     next: (response:any) => {
+  //       this.logger.info('Response from getJsonWebToken:', response);
+
+  //     },error: (err) => {
+  //       this.logger.error('Error fetching user token:', err);
+  //     }
+  //   })
+  // }
+
 
   constructor(private auth: AuthService) { }
 
@@ -40,7 +55,8 @@ export class NavbarComponent {
     // Subscribe to email changes
     this.auth.emailSubscription$.subscribe({
       next: (email) => {
-        this.email = email;
+        if (email !== null)
+          this.email = email;
         this.logger.info('User email updated:', this.email);
       },
       error: (err) => {
@@ -51,7 +67,8 @@ export class NavbarComponent {
     // Subscribe to role changes
     this.auth.roleSubscription$.subscribe({
       next: (role) => {
-        this.role = role;
+        if (role != null)
+          this.role = role;
         this.logger.info('User role updated:', this.role);
       },
       error: (err) => {
@@ -67,6 +84,10 @@ export class NavbarComponent {
     return this.role;
   }
 
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
 
   logout(): void {
     // if(!this.email) {
@@ -76,4 +97,4 @@ export class NavbarComponent {
     this.auth.logout();
   }
 
-  }
+}

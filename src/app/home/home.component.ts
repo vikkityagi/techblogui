@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    if (localStorage.getItem('userEmail') && localStorage.getItem('userRole') && localStorage.getItem('userEmailSubscription') && localStorage.getItem('userRoleSubscription')) {
+    if (localStorage.getItem('userEmail') != null && localStorage.getItem('userRole') != null && localStorage.getItem('userEmailSubscription') != null && localStorage.getItem('userRoleSubscription') != null) {
       alert('Welcome back! You are already logged in.');
       this.authService.setUserEmail(localStorage.getItem('userEmail')!);
       const userRole = localStorage.getItem('userRole');

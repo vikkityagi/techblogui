@@ -10,7 +10,17 @@
 
   <!-- Menu links (same for desktop & mobile) -->
   <div class="nav-links" [class.show]="isMenuOpen || isDesktop">
-    <span *ngIf="email" class="user-email">📧 {{ email }}</span>
+    <ng-container *ngIf="email">
+      <button mat-button [matMenuTriggerFor]="userMenu">
+        📧 {{ email }}
+         <mat-icon style="font-size: 16px; margin-left: 4px;">arrow_drop_down</mat-icon>
+      </button>
+
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+    </ng-container>
+
     <a mat-button *ngIf="role === 'admin'" routerLink="/add-category" (click)="closeMenu()">Add Category</a>
     <a mat-button *ngIf="role === 'admin'" routerLink="/add-blog" (click)="closeMenu()">Add Blog</a>
     <a mat-button routerLink="/" (click)="closeMenu()">🏠 Home</a>
@@ -19,6 +29,7 @@
     <a mat-button routerLink="/signup" (click)="closeMenu()">Signup</a>
     <a mat-button routerLink="/blog-list" (click)="closeMenu()">Blog List</a>
     <a mat-button routerLink="/history" (click)="closeMenu()">My History</a>
-    <a mat-button (click)="logout()" *ngIf="email">Log Out</a>
+    <a mat-button routerLink="/contact" (click)="closeMenu()">Contact</a>
+    <!-- <a mat-button (click)="test()">Test</a> -->
   </div>
 </mat-toolbar>

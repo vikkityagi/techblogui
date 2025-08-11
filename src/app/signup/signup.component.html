@@ -1,5 +1,10 @@
+<!-- signup.component.html -->
+
+
+<!-- User Signup Form -->
+
 <div style="
-  background-image: url('assets/images/signup2.webp');
+  background-image: url('assets/images/signup.jpg');
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -20,40 +25,100 @@
       </ul>
     </div>
 
+    <mat-radio-group [(ngModel)]="selectedRole" style="margin-bottom: 1rem;">
+      <mat-radio-button value="user">User Signup</mat-radio-button>
+      <mat-radio-button value="admin">Admin Signup</mat-radio-button>
+    </mat-radio-group>
 
-    <mat-card-title class="signup-title">📝 Create Your Account</mat-card-title>
+    <div *ngIf="selectedRole === 'user'">
+      <mat-card-title class="signup-title">📝 Create Your Account</mat-card-title>
 
-    <mat-card-content>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="email" type="email" required />
-      </mat-form-field>
+      <mat-card-content>
+        <input type="hidden" [(ngModel)]="otpReference" />
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Password</mat-label>
-        <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required />
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="email" type="email" required [disabled]="otpSent || otpVerified" />
+        </mat-form-field>
 
-        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
-          [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
-          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" required
+            [disabled]="otpSent || otpVerified" />
+
+          <button mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+            [attr.aria-label]="'Toggle password visibility'" [attr.aria-pressed]="!hidePassword" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Select Role</mat-label>
+          <mat-select [(ngModel)]="role" required>
+            <mat-option value="user">User</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div *ngIf="otpSent && !otpVerified" style="margin-top: 1rem;">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Enter OTP</mat-label>
+            <input matInput [(ngModel)]="otp" type="text" />
+          </mat-form-field>
+
+          <!-- Countdown Timer -->
+          <div *ngIf="timeLeftMs > 0" style="margin-top: 0.5rem; color: red;">
+            OTP will expire in {{ displayTime }}
+          </div>
+
+
+
+
+          <button mat-stroked-button color="primary" (click)="verifyOtp()">
+            ✅ Verify OTP
+          </button>
+          <button *ngIf="timeLeftMs <= 0" mat-button color="accent" (click)="resendOtp()" style="margin-left: 1rem;">
+            🔄 Resend OTP
+          </button>
+        </div>
+        <p *ngIf="otpMessage !== '' " [ngClass]="{ 'error-msg': isError, 'success-msg': !isError }">
+          {{ otpMessage }}
+        </p>
+
+        <button mat-raised-button color="primary" class="signup-btn" (click)="signup()"
+          [disabled]="loading || (otpSent || otpVerified) ">
+          🚀 Register
         </button>
-      </mat-form-field>
+
+        <p class="link-text">
+          Already have an account? <a routerLink="/login">Login</a>
+        </p>
+      </mat-card-content>
+    </div>
+
+    <div *ngIf="selectedRole === 'admin'">
+      <mat-card-title class="signup-title">📝 Create admin Your Account</mat-card-title>
+
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="adminEmail" type="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput [(ngModel)]="adminPassword" type="password" required />
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" (click)="createAdmin()">
+          Create Admin
+        </button>
+      </mat-card-content>
+    </div>
 
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Select Role</mat-label>
-        <mat-select [(ngModel)]="role" required>
-          <mat-option value="user">User</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" class="signup-btn" (click)="signup()" [disabled]="loading">
-        🚀 Register
-      </button>
-
-      <p class="link-text">
-        Already have an account? <a routerLink="/login">Login</a>
-      </p>
-    </mat-card-content>
   </mat-card>
 </div>
+
+
+<!-- Admin Signup Form -->

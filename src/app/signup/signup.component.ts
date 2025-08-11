@@ -15,7 +15,22 @@ export class SignupComponent implements OnInit {
   email = '';
   password = '';
   role: 'user' | 'admin' = 'user';
+  otp = '';
   loading = false;
+  otpSent = false;
+  otpVerified = false;
+  otpMessage: any;
+  isError: boolean = false;
+  otpReference: any;
+  otpExpireTime: number = 0;
+  timeLeftMs: number = 0; // time left in milliseconds
+  displayTime: string = '';
+  private timer: any;
+
+  selectedRole: string = '';
+  adminEmail: string = '';
+  adminPassword: string  = '';
+
 
   errorMessages: string[] = [];
   emailPattern: RegExp = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
@@ -24,10 +39,32 @@ export class SignupComponent implements OnInit {
   private logger = Logger; // Replace with your logging service
 
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router) { 
+
+    this.selectedRole = 'user';
+  }
 
   ngOnInit(): void {
     window.addEventListener('storage', this.handleStorageChange.bind(this));
+  }
+
+  createAdmin(){
+
+    if(!this.adminEmail || !this.adminPassword){
+      this.errorMessages.push("Email or Password not Empty");
+      return;
+    }else{
+      this.errorMessages = [];
+    }
+
+    const hashedPassword = CryptoJS.SHA256(this.password).toString();
+
+    this.auth.adminlogin(this.adminEmail,hashedPassword).subscribe({
+      next: (data)=>{
+        this.logger.info(data);
+      }
+    })
+
   }
 
   handleStorageChange(event: StorageEvent) {
@@ -40,16 +77,17 @@ export class SignupComponent implements OnInit {
   }
 
   signup() {
+    this.otpSent = false;
     if (!this.email || !this.password || !this.role) {
       this.errorMessages.push('⚠️ Please fill all the required fields before submitting.');
       return;
-    }else{
+    } else {
       this.errorMessages = []; // Clear previous errors
     }
     if (!this.emailPattern.test(this.email)) {
       this.errorMessages.push(' Please enter a valid email address.');
       return;
-    }else{
+    } else {
       this.errorMessages = []; // Clear previous errors
     }
 
@@ -58,7 +96,7 @@ export class SignupComponent implements OnInit {
         '🔒 Password must be at least 6 characters long and include one capital letter, one number, and one special character.'
       );
       return;
-    }else{
+    } else {
       this.errorMessages = []; // Clear previous errors
     }
 
@@ -75,12 +113,27 @@ export class SignupComponent implements OnInit {
         this.logger.info('Signup response:', body);
         if (!body || data.status !== 201) {
           this.errorMessages.push('Signup failed. Please try again.');
-        } else if (body && data.status === 201) {
+        } else if (body && data.status === 201 && body.otpExpirationTime) {
           this.logger.log('Signup successful:', data);
-          alert('Signup successful! Please log in.');
+          this.otpExpireTime = body.otpExpirationTime;
+          this.startCountdown();
+          if (this.otpVerified && !body.isVerify) {
+            // this.router.navigate(['/login']);
+
+          } else {
+            setTimeout(() => {
+              this.errorMessages = [];
+            }, 6000);
+            this.otpExpireTime = body.otpExpirationTime;
+            this.startCountdown();
+            this.otpReference = body.otpReference;
+            this.errorMessages.push('Please verify the user first');
+          }
+
           this.loading = false;
-          this.router.navigate(['/login']);
-        }else{
+          this.otpSent = true;
+
+        } else {
           this.errorMessages = [];
         }
 
@@ -110,6 +163,70 @@ export class SignupComponent implements OnInit {
       }
     });
   }
+
+  verifyOtp() {
+    this.auth.verifyOtp({ email: this.email, otp: this.otp, otpReference: this.otpReference }).subscribe({
+      next: (res) => {
+        const body = res.body;
+        if (body && body.isVerify) {
+          this.otpVerified = true;
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+            this.otpMessage = '';
+          }, 3000);
+          this.otpMessage = body.message;
+
+        }
+      },
+      error: (err) => {
+        
+        this.isError = true;
+        this.otpMessage = err.error;
+        setTimeout(() => {
+          this.otpMessage = '';
+        }, 4000);
+        this.logger.error(err);
+      }
+    });
+  }
+
+  resendOtp() {
+    this.signup(); // Re-send same signup call to resend OTP
+  }
+
+  startCountdown() {
+    this.timeLeftMs = this.otpExpireTime;
+
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+
+    this.updateDisplayTime();
+
+    this.timer = setInterval(() => {
+      this.timeLeftMs -= 1000;
+
+      if (this.timeLeftMs <= 0) {
+        this.timeLeftMs = 0;
+        this.updateDisplayTime();
+        clearInterval(this.timer);
+      } else {
+        this.updateDisplayTime();
+      }
+    }, 1000);
+  }
+
+  updateDisplayTime() {
+    const minutes = Math.floor(this.timeLeftMs / 60000);
+    const seconds = Math.floor((this.timeLeftMs % 60000) / 1000);
+    this.displayTime = `${this.padZero(minutes)}:${this.padZero(seconds)}`;
+  }
+
+  padZero(num: number) {
+    return num < 10 ? '0' + num : num;
+  }
+
+
 
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;

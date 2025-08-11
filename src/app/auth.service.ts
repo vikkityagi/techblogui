@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { User } from './model/user.model';
 import { environment } from 'src/environment/environment';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Logger } from 'src/logger/logger';
 import { Router } from '@angular/router';
 
@@ -37,6 +37,15 @@ export class AuthService {
 
     const url = `${this.url}/users/login`; // Adjust path to match your backend API
     this.logger.info('Logging in user:', { email, password });
+    this.logger.info('API URL:', url);
+    return this.http.post<User>(url, { email, password }, {
+      observe: 'response'
+    });
+  }
+
+  adminlogin(email: string,password: string): Observable<HttpResponse<User>>{
+    const url = `${this.url}/users/admin/create`; // Adjust path to match your backend API
+    this.logger.info('Logging in admin:', { email, password });
     this.logger.info('API URL:', url);
     return this.http.post<User>(url, { email, password }, {
       observe: 'response'
@@ -124,5 +133,25 @@ export class AuthService {
     // Optional: redirect to login (if using router here)
 
   }
+
+  verifyOtp(request: { email: string, otp: string, otpReference: string }): Observable<HttpResponse<User>> {
+    const url = `${this.url}/users/verify-otp`; // Adjust path to match your backend API
+    this.logger.info('Verifying OTP for user:', request);
+    this.logger.info('API URL:', url);
+    return this.http.post<User>(url, request, {
+      observe: 'response'
+    });
+  }
+
+  // getJsonWebToken() {
+  //   const token = 'Tag47BZJ1DdAm3jVFaO33xS0UKPVcSKA'; // Replace this with your actual token
+  //   const url = 'https://your-api.com/endpoint';
+
+  //   const headers = new HttpHeaders({
+  //     'Authorization': `Bearer ${token}`,
+  //     'Content-Type': 'application/json'
+  //   });
+  //   return this.http.post(`https://nextgen.ehospital.nic.in/api/ipd/doc/vitalsListDataList`,{ "ipdid": 27, "health_facility_id": 136 }, { headers });
+  // }
 
 }
